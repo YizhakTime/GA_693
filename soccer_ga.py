@@ -34,11 +34,15 @@ class Storage:
     def __init__(self, path):
         self._path = path
 
-    def modify_csv(self, params):
+    def check_csv_empty(self, params=None):
         try:
             df = pd.read_csv('data.csv')
+            return True
         except pd.errors.EmptyDataError:
-            pass
+            return False
+    def init_csv(self):
+        pass
+        
 
 def generate_random_pop() -> list[str]:
     return []
@@ -65,7 +69,8 @@ def eval_fitness(chromosome1 : str) -> str:
 def main():
     csv_file = 'data.csv'
     db = Storage(csv_file)
-    print(db._path)
+    if db.check_csv_empty() is None:
+        db.init_csv()
 
 if __name__ == "__main__":
     main()
