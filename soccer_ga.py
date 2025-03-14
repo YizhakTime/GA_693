@@ -28,8 +28,6 @@ formations = [
     "3-1-4-2"
 ]
 
-example = []
-
 class Storage:
     def __init__(self, path):
         self._path = path
@@ -42,10 +40,19 @@ class Storage:
             return False
     def init_csv(self):
         pass
-        
 
-def generate_random_pop() -> list[str]:
-    return []
+def generate_random_pop() -> list[int]:
+    size = len(formations)
+    pop = []
+    for formation in formations:
+        new_form = formation.replace('-', '')
+        defense = int(new_form[0])
+        if len(new_form) == 3:
+            midfield = int(new_form[1])
+            attack = int(new_form[2])
+            pop.append([defense, midfield, attack])
+
+    return pop
 
 def genetic_algorithm() -> str:
     pop = generate_random_pop()
@@ -71,6 +78,7 @@ def main():
     db = Storage(csv_file)
     if db.check_csv_empty() is None:
         db.init_csv()
+    print(generate_random_pop())
 
 if __name__ == "__main__":
     main()
