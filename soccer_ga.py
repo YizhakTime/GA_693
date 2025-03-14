@@ -1,10 +1,6 @@
 import numpy as np
 import pandas as pd # type: ignore
 
-print("Hello")
-
-time = 0
-
 formations = [
     "5-4-1",
     "4-4-2",
@@ -32,6 +28,18 @@ formations = [
     "3-1-4-2"
 ]
 
+example = []
+
+class Storage:
+    def __init__(self, path):
+        self._path = path
+
+    def modify_csv(self, params):
+        try:
+            df = pd.read_csv('data.csv')
+        except pd.errors.EmptyDataError:
+            pass
+
 def generate_random_pop() -> list[str]:
     return []
 
@@ -53,3 +61,11 @@ def crossover(chromosome1 : str, chromsome2 : str) -> str:
 
 def eval_fitness(chromosome1 : str) -> str:
     return ""
+
+def main():
+    csv_file = 'data.csv'
+    db = Storage(csv_file)
+    print(db._path)
+
+if __name__ == "__main__":
+    main()
