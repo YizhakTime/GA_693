@@ -28,18 +28,11 @@ formations = [
     "3-1-4-2"
 ]
 
-class Storage:
-    def __init__(self, path):
-        self._path = path
+def check_csv_empty(self, params=None):
+    pass
 
-    def check_csv_empty(self, params=None):
-        try:
-            df = pd.read_csv('data.csv')
-            return True
-        except pd.errors.EmptyDataError:
-            return False
-    def init_csv(self):
-        pass
+def init_csv(self):
+    pass
 
 def generate_random_pop() -> list[int]:
     size = len(formations)
@@ -51,7 +44,10 @@ def generate_random_pop() -> list[int]:
             midfield = int(new_form[1])
             attack = int(new_form[2])
             pop.append([defense, midfield, attack])
-
+        elif len(new_form) == 4:
+            print(new_form)
+        elif len(new_form) == 5:
+            print("5:", new_form)
     return pop
 
 def genetic_algorithm() -> str:
@@ -73,12 +69,6 @@ def crossover(chromosome1 : str, chromsome2 : str) -> str:
 def eval_fitness(chromosome1 : str) -> str:
     return ""
 
-def main():
-    csv_file = 'data.csv'
-    db = Storage(csv_file)
-    if db.check_csv_empty() is None:
-        db.init_csv()
-    print(generate_random_pop())
-
 if __name__ == "__main__":
-    main()
+    csv_file = 'data.csv'
+    generate_random_pop()
