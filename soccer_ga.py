@@ -39,17 +39,42 @@ def generate_random_pop() -> list[int]:
     pop = []
     for formation in formations:
         new_form = formation.replace('-', '')
-        defense = int(new_form[0])
         if len(new_form) == 3:
+            defense = int(new_form[0])
             midfield = int(new_form[1])
             attack = int(new_form[2])
             pop.append([defense, midfield, attack])
+
         elif len(new_form) == 4:
-            print(new_form)
+            if int(new_form[0]) == 4:
+                defense = int(new_form[0])
+                if new_form == '4312' or new_form == '4321' or new_form == '4222' or new_form == '4213' \
+                    or new_form == '4141' or new_form == '4132':
+                    midfield = int(new_form[1])+int(new_form[2])
+                    attack = int(new_form[3])
+                elif new_form == '4231' or new_form == '4123':
+                    midfield = 3
+                    attack = 3
+            elif int(new_form[0]) == 5:
+                defense = int(new_form[0])
+                midfield = int(new_form[1])+int(new_form[2])
+                attack = int(new_form[3])
+            else:
+                if new_form == '3511' or new_form == '3421':
+                    defense = int(new_form[0])
+                    midfield = int(new_form[1])
+                    attack = int(new_form[2])+int(new_form[3])
+                elif new_form == '3412' or new_form == '3142':
+                    defense = int(new_form[0])
+                    midfield = int(new_form[1])+int(new_form[2])
+                    attack = int(new_form[3])                
+            pop.append([defense, midfield, attack])
+        
         elif len(new_form) == 5:
             defense = int(new_form[0])
             midfield = int(new_form[1])+int(new_form[2])+int(new_form[3])
             attack = int(new_form[4])
+            pop.append([defense, midfield, attack])
     return pop
 
 def genetic_algorithm() -> str:
@@ -73,4 +98,4 @@ def eval_fitness(chromosome1 : str) -> str:
 
 if __name__ == "__main__":
     csv_file = 'data.csv'
-    generate_random_pop()
+    print(generate_random_pop())
