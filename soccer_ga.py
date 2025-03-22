@@ -47,7 +47,9 @@ def generate_random_pop() -> list[int]:
         elif len(new_form) == 4:
             print(new_form)
         elif len(new_form) == 5:
-            print("5:", new_form)
+            defense = int(new_form[0])
+            midfield = int(new_form[1])+int(new_form[2])+int(new_form[3])
+            attack = int(new_form[4])
     return pop
 
 def genetic_algorithm() -> str:
