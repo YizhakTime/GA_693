@@ -38,6 +38,7 @@ def generate_random_pop() -> list[int]:
     size = len(formations)
     pop = []
     for formation in formations:
+        #https://stackoverflow.com/questions/40954324/how-to-remove-hyphens-from-a-list-of-strings
         new_form = formation.replace('-', '')
         if len(new_form) == 3:
             defense = int(new_form[0])
@@ -96,6 +97,13 @@ def crossover(chromosome1 : str, chromsome2 : str) -> str:
 def eval_fitness(chromosome1 : str) -> str:
     return ""
 
+def find_unique(pop : list[list[int]]) -> list[list[int]]:
+    
+    return pop
+
 if __name__ == "__main__":
     csv_file = 'data.csv'
-    print(generate_random_pop())
+    pop = generate_random_pop()
+    print(pop)
+    pop = find_unique(pop)
+    print(pop)
