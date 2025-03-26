@@ -98,18 +98,28 @@ def crossover(chromosome1 : str, chromsome2 : str) -> str:
 def eval_fitness(chromosome1 : str) -> str:
     return ""
 
-def find_unique(pop : list[list[int]]) -> list[list[int]]:
-    tmp = deepcopy(pop)
-    for i in range(len(tmp)):
-        for j in range(i, len(tmp)):
-            print(tmp[i], tmp[j])
-            if tmp[i] == tmp[j]:
-                pop.pop(j)
-    return pop
+def find_indices(pop : list[list[int]]) -> dict:
+    d = dict()
+    for i, ind in enumerate(pop):
+        if tuple(ind) not in d:
+            d[tuple(ind)] = [i]
+        else:
+            d[tuple(ind)].append(i)
+    return d
+
+def remove_duplicates(pop : list[list[int]]) -> list[list[int]]:
+    ind_keys = find_indices(pop)
+    new_pop = list()
+    for ind in ind_keys:
+        print(ind, ind_keys[ind])
+        for i, elem in enumerate(ind_keys[ind]):
+            if i == 0:
+                new_pop.append(pop[elem])
+    return new_pop
 
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_random_pop()
-    print(len(pop))
-    find_unique(pop)
-    # print(pop)
+    print(pop)
+    print(remove_duplicates(pop))
+    # remove_duplicates(pop)
