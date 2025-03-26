@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd # type: ignore
-from copy import deepcopy
 
 formations = [
     "5-4-1",
@@ -120,6 +119,6 @@ def remove_duplicates(pop : list[list[int]]) -> list[list[int]]:
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_random_pop()
-    print(pop)
-    print(remove_duplicates(pop))
+    # print(pop)
+    # print(remove_duplicates(pop))
     # remove_duplicates(pop)
