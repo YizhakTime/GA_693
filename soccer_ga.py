@@ -28,12 +28,6 @@ formations = [
     "3-1-4-2"
 ]
 
-def check_csv_empty(self, params=None):
-    pass
-
-def init_csv(self):
-    pass
-
 def generate_random_pop() -> list[int]:
     size = len(formations)
     pop = []
@@ -116,9 +110,20 @@ def remove_duplicates(pop : list[list[int]]) -> list[list[int]]:
                 new_pop.append(pop[elem])
     return new_pop
 
+def generate_pop():
+    L = ['3-5-2', '3-4-3', '4-3-3', '4-5-1', '4-2-3-1', '4-4-2', '5-3-2', '5-4-1']
+    size = len(L)
+    for i in range(size):
+        L.append(L[i].replace('-', ''))
+    del L[:8]
+    return L
+
 if __name__ == "__main__":
     csv_file = 'data.csv'
-    pop = generate_random_pop()
+    pop = generate_pop()
+    print(pop)
+
+    # pop = generate_random_pop()
     # print(pop)
     # print(remove_duplicates(pop))
     # remove_duplicates(pop)
