@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd # type: ignore
+import pandas as pd 
 
 formations = [
     "5-4-1",
@@ -77,20 +77,27 @@ def genetic_algorithm(pop: list[str], iterations: int=10) -> str:
         pass
     return ""
 
+# tournament selection
 def select() -> tuple[str, str]:
     c1, c2 = "", ""
     return c1, c2
 
-def mutate(chromosome1: str, chromsome2: str) -> str:
+#mutation rate of 0.1
+def mutate(chromosome1: str, chromsome2: str, mutation: float=0.1) -> str:
     return ""
 
+#single point crossover
 def crossover(chromosome1: str, chromsome2: str) -> str:
     return ""
+
+def replace_inds(pop: list[str], child1: str, child2: str) -> list[str]:
+    return [""]
 
 def eval_fitness(csv_file: str, chromosome1: str) -> str:
     df = pd.read_csv(csv_file)
     # https://www.geeksforgeeks.org/get-a-specific-row-in-a-given-pandas-dataframe/
     stats = df.loc[df['Formations'] ==  chromosome1]
+    # return fitness (what data type, most likely float)
     return ""
 
 def find_indices(pop: list[list[int]]) -> dict:
@@ -123,3 +130,4 @@ def generate_pop():
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
+
