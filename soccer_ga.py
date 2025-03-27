@@ -72,8 +72,7 @@ def generate_random_pop() -> list[int]:
             pop.append([defense, midfield, attack])
     return pop
 
-def genetic_algorithm() -> str:
-    pop = generate_random_pop()
+def genetic_algorithm(pop: list[str], iterations: int=10) -> str:
     while len(pop) > 0:
         pass
     return ""
@@ -82,16 +81,19 @@ def select() -> tuple[str, str]:
     c1, c2 = "", ""
     return c1, c2
 
-def mutate(chromosome1 : str, chromsome2 : str) -> str:
+def mutate(chromosome1: str, chromsome2: str) -> str:
     return ""
 
-def crossover(chromosome1 : str, chromsome2 : str) -> str:
+def crossover(chromosome1: str, chromsome2: str) -> str:
     return ""
 
-def eval_fitness(chromosome1 : str) -> str:
+def eval_fitness(csv_file: str, chromosome1: str) -> str:
+    df = pd.read_csv(csv_file)
+    # https://www.geeksforgeeks.org/get-a-specific-row-in-a-given-pandas-dataframe/
+    stats = df.loc[df['Formations'] ==  chromosome1]
     return ""
 
-def find_indices(pop : list[list[int]]) -> dict:
+def find_indices(pop: list[list[int]]) -> dict:
     d = dict()
     for i, ind in enumerate(pop):
         if tuple(ind) not in d:
@@ -100,7 +102,7 @@ def find_indices(pop : list[list[int]]) -> dict:
             d[tuple(ind)].append(i)
     return d
 
-def remove_duplicates(pop : list[list[int]]) -> list[list[int]]:
+def remove_duplicates(pop: list[list[int]]) -> list[list[int]]:
     ind_keys = find_indices(pop)
     new_pop = list()
     for ind in ind_keys:
@@ -121,9 +123,3 @@ def generate_pop():
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
-    print(pop)
-
-    # pop = generate_random_pop()
-    # print(pop)
-    # print(remove_duplicates(pop))
-    # remove_duplicates(pop)
