@@ -1,5 +1,6 @@
 import numpy as np
-import pandas as pd 
+import pandas as pd  # type: ignore
+import requests
 
 formations = [
     "5-4-1",
@@ -113,7 +114,6 @@ def remove_duplicates(pop: list[list[int]]) -> list[list[int]]:
     ind_keys = find_indices(pop)
     new_pop = list()
     for ind in ind_keys:
-        print(ind, ind_keys[ind])
         for i, elem in enumerate(ind_keys[ind]):
             if i == 0:
                 new_pop.append(pop[elem])
@@ -127,7 +127,21 @@ def generate_pop():
     del L[:8]
     return L
 
-if __name__ == "__main__":
-    csv_file = 'data.csv'
-    pop = generate_pop()
+def modify_csv(csv_file: str, formation: str, col: str, value: float) -> None:
+    df = pd.read_csv(csv_file)
+    row_data = df.loc[df['Formations'] == formation]
+    print(df.iloc[3][2])
+    # df.loc[df["Formations"] == formation, "Average number of goals scored"] = value
+    # print(df[['Formations', col]])
+    # print(row_data[col].update())
 
+if __name__ == "__main__":
+    flag = str(input("Modify CSV (False) or run GA (True): "))
+    csv_file = 'data.csv'
+    if flag == "False":
+        form = str(input("Enter formation: "))
+        stat = str(input("Enter stat: "))
+        data = float(input("Enter value: "))
+        modify_csv(csv_file=csv_file, formation=form, col=stat, value=data)
+    else:
+        pop = generate_pop()
