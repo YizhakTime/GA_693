@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd  # type: ignore
 import time
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # type: ignore
 
 formations = [
     "5-4-1",
@@ -112,16 +112,16 @@ def eval_fitness(csv_file: str, chromosome1: str) -> float:
     avg_goals_scored = np.mean(df.loc[idx, ['Goals scored']])
     avg_goals_conceded = np.mean(df.loc[idx, ['Goals conceded']])
     avg_shots_on_target = np.mean(df.loc[idx, ['Shots on target']])
-    avg_total = np.mean(df.loc[idx, ['Total Shots']])
+    avg_total = np.mean(df.loc[idx, ['Total shots']])
     avg_poss = np.mean(df.loc[idx, ['Possession']])
-    avg_pass = np.mean(df.loc[idx, ['Passing Accuracy']])
+    avg_pass = np.mean(df.loc[idx, ['Passing accuracy']])
     avg_offense = np.mean(df.loc[idx, ['Offensive duels won']])
     avg_pen_scored = np.mean(df.loc[idx, ['Penalties scored']])
     avg_pen_missed = np.mean(df.loc[idx, ['Penalties missed']])
     avg_num_corners =  np.mean(df.loc[idx, ['Number of corners']])
     avg_num_counter = np.mean(df.loc[idx, ['Number of counter attacks']])
     avg_free_kick = np.mean(df.loc[idx, ['Number of free kicks']])
-    print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target)
+    print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target, avg_total, avg_poss, avg_pass, avg_offense, avg_pen_scored, avg_pen_missed, avg_num_corners, avg_num_counter, avg_free_kick)
     return 1.0
 
 def find_indices(pop: list[list[int]]) -> dict:
