@@ -73,14 +73,13 @@ def generate_random_pop() -> list[int]:
             pop.append([defense, midfield, attack])
     return pop
 
-def genetic_algorithm(pop: list[str], iterations: int=10) -> str:
+def genetic_algorithm(pop: list[str], csv: str, iterations: int=10) -> str:
     while len(pop) > 0:
-        pass
+        new_pop = get_fitness(pop, csv)
     return ""
 
 # tournament selection
-def select(c1: str, c2: str,) -> tuple[str, str]:
-
+def select(c1: str, c2: str) -> tuple[str, str]:
     return c1, c2
 
 #mutation rate of 0.1
@@ -131,10 +130,17 @@ def generate_pop():
     del L[:10]
     return L
 
+def get_fitness(pop: list[str], csv: str) -> list[float]:
+    fitnesses = []
+    for p in pop:
+        fitness = eval_fitness(csv_file=csv, chromosome1=p)
+        fitnesses.append(fitness)
+    return fitnesses
+
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
-    print(pop)
+    print(eval_fitness(csv_file=csv_file, chromosome1=pop[0]))
     # print(pop)
     # before 10:40 pm
-    df = pd.read_csv(csv_file)
+    # df = pd.read_csv(csv_file)
