@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd  # type: ignore
-import requests
+import time
+import matplotlib.pyplot as plt
 
 formations = [
     "5-4-1",
@@ -73,10 +74,14 @@ def generate_random_pop() -> list[int]:
             pop.append([defense, midfield, attack])
     return pop
 
-def genetic_algorithm(pop: list[str], csv: str, iterations: int=10) -> str:
+def genetic_algorithm(pop: list[str], csv: str, iterations: int=10) -> tuple[str, float]:
+    start = time.time_ns()
     while len(pop) > 0:
         new_pop = get_fitness(pop, csv)
-    return ""
+    end = time.time_ns()
+    time_ns = end-start
+    total = time_ns/(10**9)
+    return "", total
 
 # tournament selection
 def select(c1: str, c2: str) -> tuple[str, str]:
@@ -104,10 +109,18 @@ def eval_fitness(csv_file: str, chromosome1: str) -> float:
     # return fitness (what data type, most likely float)
     df['Formations'] = df['Formations'].astype('string')
     idx = df['Formations'] == chromosome1
-    print(df.columns)
     avg_goals_scored = np.mean(df.loc[idx, ['Goals scored']])
     avg_goals_conceded = np.mean(df.loc[idx, ['Goals conceded']])
     avg_shots_on_target = np.mean(df.loc[idx, ['Shots on target']])
+    avg_total = np.mean(df.loc[idx, ['Total Shots']])
+    avg_poss = np.mean(df.loc[idx, ['Possession']])
+    avg_pass = np.mean(df.loc[idx, ['Passing Accuracy']])
+    avg_offense = np.mean(df.loc[idx, ['Offensive duels won']])
+    avg_pen_scored = np.mean(df.loc[idx, ['Penalties scored']])
+    avg_pen_missed = np.mean(df.loc[idx, ['Penalties missed']])
+    avg_num_corners =  np.mean(df.loc[idx, ['Number of corners']])
+    avg_num_counter = np.mean(df.loc[idx, ['Number of counter attacks']])
+    avg_free_kick = np.mean(df.loc[idx, ['Number of free kicks']])
     print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target)
     return 1.0
 
