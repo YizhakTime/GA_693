@@ -102,6 +102,13 @@ def eval_fitness(csv_file: str, chromosome1: str) -> float:
     # https://www.geeksforgeeks.org/get-a-specific-row-in-a-given-pandas-dataframe/
     # stats = df.loc[df['Formations'] ==  chromosome1]
     # return fitness (what data type, most likely float)
+    df['Formations'] = df['Formations'].astype('string')
+    idx = df['Formations'] == chromosome1
+    print(df.columns)
+    avg_goals_scored = np.mean(df.loc[idx, ['Goals scored']])
+    avg_goals_conceded = np.mean(df.loc[idx, ['Goals conceded']])
+    avg_shots_on_target = np.mean(df.loc[idx, ['Shots on target']])
+    print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target)
     return 1.0
 
 def find_indices(pop: list[list[int]]) -> dict:
@@ -140,7 +147,8 @@ def get_fitness(pop: list[str], csv: str) -> list[float]:
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
-    print(eval_fitness(csv_file=csv_file, chromosome1=pop[0]))
+    fit = eval_fitness(csv_file=csv_file, chromosome1=pop[0])
+    # print(fit, pop[0])
     # print(pop)
     # before 10:40 pm
     # df = pd.read_csv(csv_file)
