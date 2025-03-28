@@ -1,7 +1,17 @@
-data source: eurofootball database, espn, whoscored
+data source: fbref database, espn, whoscored
+
 Whoscored has following metrics: Goals scored, Goals conceded, Shots on target, Possession, 
-Passing accuracy, Total shots, Number of counter attacks, Number of corners,
-Penalties scored (implied), Penalties missed (implied), Aerial duels won
-Penalties, corners are not set peices according to Whoscored
-Have to guess number of free kicks by espn, espn is good for this info, fbref doesn't usually have this detailed info 
-Jan 01, 2014, Manchester City vs Swansea, 4231, 442
+- Passing accuracy, Total shots, Number of counter attacks, Number of corners,
+- Penalties scored (implied), Penalties missed (implied), Aerial duels won
+- Penalties, corners, throw-ins, goal kicks are not set pieces, according to Whoscored
+- Have to guess number of free kicks by espn or use set piece metric from Whoscored (what I did)
+- espn is good for this info, fbref doesn't usually have this detailed info 
+
+fbref has metrics:
+- formations
+- goals scored, goals conceded
+- penalties made, assists, shots, shots on target (not reliable for older matches)
+- for recent matches like this season, has goals scored, conceded, possession, 
+    - passing accuracy, corners, aerials won
+
+Jan 01, 2014, Manchester City vs Swansea, 4231, 442, free kicks from whoscored is 10, 5 (respectively)
