@@ -1,3 +1,4 @@
 .~
 *.swp
 *.o
+*.~lock.data.csv#

@@ -1,1 +1,7 @@
+data source: eurofootball database, espn, whoscored
+Whoscored has following metrics: Goals scored, Goals conceded, Shots on target, Possession, 
+Passing accuracy, Total shots, Number of counter attacks, Number of corners,
+Penalties scored (implied), Penalties missed (implied), Aerial duels won
+Penalties, corners are not set peices according to Whoscored
+Have to guess number of free kicks by espn, espn is good for this info, fbref doesn't usually have this detailed info 
 Jan 01, 2014, Manchester City vs Swansea, 4231, 442

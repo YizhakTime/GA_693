@@ -79,8 +79,8 @@ def genetic_algorithm(pop: list[str], iterations: int=10) -> str:
     return ""
 
 # tournament selection
-def select() -> tuple[str, str]:
-    c1, c2 = "", ""
+def select(c1: str, c2: str,) -> tuple[str, str]:
+
     return c1, c2
 
 #mutation rate of 0.1
@@ -91,15 +91,19 @@ def mutate(chromosome1: str, chromsome2: str, mutation: float=0.1) -> str:
 def crossover(chromosome1: str, chromsome2: str) -> str:
     return ""
 
-def replace_inds(pop: list[str], child1: str, child2: str) -> list[str]:
-    return [""]
+def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
+    for p in pop:
+        fitness = eval_fitness(file, chromosome1=p)
+        if fitness >= max_fitness:
+            return True
+    return False
 
-def eval_fitness(csv_file: str, chromosome1: str) -> str:
+def eval_fitness(csv_file: str, chromosome1: str) -> float:
     df = pd.read_csv(csv_file)
     # https://www.geeksforgeeks.org/get-a-specific-row-in-a-given-pandas-dataframe/
-    stats = df.loc[df['Formations'] ==  chromosome1]
+    # stats = df.loc[df['Formations'] ==  chromosome1]
     # return fitness (what data type, most likely float)
-    return ""
+    return 1.0
 
 def find_indices(pop: list[list[int]]) -> dict:
     d = dict()
@@ -127,21 +131,6 @@ def generate_pop():
     del L[:8]
     return L
 
-def modify_csv(csv_file: str, formation: str, col: str, value: float) -> None:
-    df = pd.read_csv(csv_file)
-    row_data = df.loc[df['Formations'] == formation]
-    print(df.iloc[3][2])
-    # df.loc[df["Formations"] == formation, "Average number of goals scored"] = value
-    # print(df[['Formations', col]])
-    # print(row_data[col].update())
-
 if __name__ == "__main__":
-    flag = str(input("Modify CSV (False) or run GA (True): "))
     csv_file = 'data.csv'
-    if flag == "False":
-        form = str(input("Enter formation: "))
-        stat = str(input("Enter stat: "))
-        data = float(input("Enter value: "))
-        modify_csv(csv_file=csv_file, formation=form, col=stat, value=data)
-    else:
-        pop = generate_pop()
+    pop = generate_pop()
