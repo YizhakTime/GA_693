@@ -124,13 +124,17 @@ def remove_duplicates(pop: list[list[int]]) -> list[list[int]]:
     return new_pop
 
 def generate_pop():
-    L = ['3-5-2', '3-4-3', '4-3-3', '4-5-1', '4-2-3-1', '4-4-2', '5-3-2', '5-4-1']
+    L = ['3-5-2', '3-4-3', '4-3-3', '4-5-1', '4-2-3-1', '4-4-2', '5-3-2', '5-4-1', '4-4-1-1', '4-1-2-1-2']
     size = len(L)
     for i in range(size):
         L.append(L[i].replace('-', ''))
-    del L[:8]
+    del L[:10]
     return L
 
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
+    print(pop)
+    # print(pop)
+    # before 10:40 pm
+    df = pd.read_csv(csv_file)

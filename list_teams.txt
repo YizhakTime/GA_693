@@ -14,4 +14,33 @@ fbref has metrics:
 - for recent matches like this season, has goals scored, conceded, possession, 
     - passing accuracy, corners, aerials won
 
-Jan 01, 2014, Manchester City vs Swansea, 4231, 442, free kicks from whoscored is 10, 5 (respectively)
+Jan 01, 2014:
+Manchester City vs Swansea, 4231, 442, free kicks from whoscored is 10, 5 (respectively)
+Arsenal v Cardiff
+Crystal Palace v Norwich
+Fulham v West Ham
+Liverpool v Hull (Hull had 3-5-1-1, if there's enough, use this formation)
+Southampton v Chelsea 
+Stoke v Everton
+Sunderland v Aston Villa
+West Brom v Newcastle
+Man U v Tottenham
+
+Championship:
+Isp v Charlton
+Sheffield W v Blackpool
+Birtmingham v barnsley
+Derby v Wigan
+Burnely v Huddersfield
+
+Jan 04, 2014
+Malag v Atletico
+Real Valladodid v Real Betis
+Valencia v Levante
+Almeria v Granada
+BLackburn v ManCity
+Arsenal v Tottenham
+
+
+
+
