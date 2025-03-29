@@ -121,7 +121,7 @@ def eval_fitness(csv_file: str, chromosome1: str) -> float:
     avg_num_corners =  np.mean(df.loc[idx, ['Number of corners']])
     avg_num_counter = np.mean(df.loc[idx, ['Number of counter attacks']])
     avg_free_kick = np.mean(df.loc[idx, ['Number of free kicks']])
-    print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target, avg_total, avg_poss, avg_pass, avg_offense, avg_pen_scored, avg_pen_missed, avg_num_corners, avg_num_counter, avg_free_kick)
+    #print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target, avg_total, avg_poss, avg_pass, avg_offense, avg_pen_scored, avg_pen_missed, avg_num_corners, avg_num_counter, avg_free_kick)
     return 1.0
 
 def find_indices(pop: list[list[int]]) -> dict:
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
     fit = eval_fitness(csv_file=csv_file, chromosome1=pop[0])
-    # print(fit, pop[0])
+    #print(fit, pop[0])
     # print(pop)
     # before 10:40 pm
     # df = pd.read_csv(csv_file)

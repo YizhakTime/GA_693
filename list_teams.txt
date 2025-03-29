@@ -1,4 +1,5 @@
 data source: fbref database, espn, whoscored
+https://www.baeldung.com/cs/ga-tournament-selection
 
 Whoscored has following metrics: Goals scored, Goals conceded, Shots on target, Possession, 
 - Passing accuracy, Total shots, Number of counter attacks, Number of corners,
@@ -51,3 +52,13 @@ Fiorentina v Livorno
 Juventus v Roma
 Man U v Swansea
 
+Jan 6 2014
+Real Madrid v Celta
+Rayo v Villarreal
+Napoli v Sampdoria
+Ac milan  v Atalanta (ac milan had 4321, i interpreted as 4231)
+Catania v Bologna (Bologna has 3412 which is variant of 352, i put at 352)
+Parma v Torino
+Genoa v Sassuolo
+Udinese v Verona
+Lazio v Inter (inter has 3511, which i set to 352)
