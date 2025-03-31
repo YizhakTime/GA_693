@@ -62,3 +62,9 @@ Parma v Torino
 Genoa v Sassuolo
 Udinese v Verona
 Lazio v Inter (inter has 3511, which i set to 352)
+
+Jan 7 2014
+Sunderland v Man U
+Valencia v Atletico
+
+Jan 8 2014

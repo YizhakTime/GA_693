@@ -77,7 +77,9 @@ def generate_random_pop() -> list[int]:
 def genetic_algorithm(pop: list[str], csv: str, iterations: int=10) -> tuple[str, float]:
     start = time.time_ns()
     while len(pop) > 0:
-        new_pop = get_fitness(pop, csv)
+        fits = get_fitness(pop, csv)
+        for i, f in enumerate(fits):
+            print(i, f, pop[i])
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
