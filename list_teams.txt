@@ -20,7 +20,7 @@ Manchester City vs Swansea, 4231, 442, free kicks from whoscored is 10, 5 (respe
 Arsenal v Cardiff
 Crystal Palace v Norwich
 Fulham v West Ham
-Liverpool v Hull (Hull had 3-5-1-1, if there's enough, use this formation)
+Liverpool v Hull (Hull had 3-5-1-1, if there's enough, use this formation, made it into 352)
 Southampton v Chelsea 
 Stoke v Everton
 Sunderland v Aston Villa
@@ -73,3 +73,5 @@ man city vs west ham (man city has 4222, but i changed it to 442)
 barcelona vs getafe
 
 jan 9 2014
+real madrid vs osasuna
+udinese v inter (both teams had 3511, i changed it to 352)
