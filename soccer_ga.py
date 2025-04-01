@@ -74,20 +74,34 @@ def generate_random_pop() -> list[int]:
             pop.append([defense, midfield, attack])
     return pop
 
-def genetic_algorithm(pop: list[str], csv: str, iterations: int=10) -> tuple[str, float]:
+def genetic_algorithm(pop: list[str], csv: str, generations: int=10) -> tuple[str, float]:
     start = time.time_ns()
-    while len(pop) > 0:
+    for gen in range(generations):
         fits = get_fitness(pop, csv)
-        for i, f in enumerate(fits):
-            print(i, f, pop[i])
+        p1, p2 = select(fits)
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
     return "", total
 
 # tournament selection
-def select(c1: str, c2: str) -> tuple[str, str]:
-    return c1, c2
+def select(fitness: list[float]) -> tuple[str, str]:
+    total_fitness = sum(fitness)
+    probs_fits = []
+    for i, fit in enumerate(fitness):
+        fit_n = fit/total_fitness
+        probs_fits.append(fit_n)
+
+    p1, p2 = "", ""
+    min_fit = min(probs_fits)
+    min_index = probs_fits.index(min_fit)
+    # for iter in range(0, 2):
+    #     rand_choice = np.random.randint(2)
+    #     cum_probs = []
+    #     for i in enumerate(len(probs_fits)):
+    #         cum_probs.append(probs_fits[i])
+
+    return "", ""
 
 #mutation rate of 0.1
 def mutate(chromosome1: str, chromsome2: str, mutation: float=0.1) -> str:
@@ -162,8 +176,3 @@ def get_fitness(pop: list[str], csv: str) -> list[float]:
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
-    fit = eval_fitness(csv_file=csv_file, chromosome1=pop[0])
-    # print(fit, pop[0])
-    # print(pop)
-    # before 10:40 pm
-    # df = pd.read_csv(csv_file)
