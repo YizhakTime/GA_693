@@ -78,30 +78,39 @@ def genetic_algorithm(pop: list[str], csv: str, generations: int=10) -> tuple[st
     start = time.time_ns()
     for gen in range(generations):
         fits = get_fitness(pop, csv)
-        p1, p2 = select(fits)
+        print(fits)
+        p1, p2 = select(pop, fits)
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
     return "", total
 
 # tournament selection
-def select(fitness: list[float]) -> tuple[str, str]:
+def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
     total_fitness = sum(fitness)
     probs_fits = []
     for i, fit in enumerate(fitness):
         fit_n = fit/total_fitness
         probs_fits.append(fit_n)
-
-    p1, p2 = "", ""
-    min_fit = min(probs_fits)
-    min_index = probs_fits.index(min_fit)
-    # for iter in range(0, 2):
-    #     rand_choice = np.random.randint(2)
-    #     cum_probs = []
-    #     for i in enumerate(len(probs_fits)):
-    #         cum_probs.append(probs_fits[i])
-
-    return "", ""
+    # print(probs_fits)
+    parents = []
+    for iter in range(0, 2):
+        prev = probs_fits[0]
+        calc = prev
+        rand_choice = np.random.random()
+        cum_probs = []
+        for i in range(len(probs_fits)):
+            if i != 0:
+                calc = probs_fits[i]+prev
+            cum_probs.append(calc)
+            prev = calc
+        else:
+            for i in range(len(cum_probs)):
+                if rand_choice < cum_probs[i]:
+                    index = i
+                    break
+            parents.append(index)
+    return pop[parents[0]], pop[parents[1]]
 
 #mutation rate of 0.1
 def mutate(chromosome1: str, chromsome2: str, mutation: float=0.1) -> str:
@@ -169,6 +178,7 @@ def generate_pop():
 def get_fitness(pop: list[str], csv: str) -> list[float]:
     fitnesses = []
     for p in pop:
+        print(p)
         fitness = eval_fitness(csv_file=csv, chromosome1=p)
         fitnesses.append(fitness)
     return fitnesses
@@ -176,3 +186,6 @@ def get_fitness(pop: list[str], csv: str) -> list[float]:
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
+    fits = [3, 1, 4, 9, 2, 10, 32, 41, 5, 8]
+    # probs = [12, 8, 6, 4]
+    print(select(pop=pop, fitness=fits))
