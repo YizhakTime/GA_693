@@ -134,14 +134,13 @@ def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
             if prob < pro:
                 parent1 = index
                 break
-        
         prob = np.random.random()
         for i, pro in enumerate(cum_probs):
             prob = np.random.random()
             if prob < pro:
                 parent2 = i
                 break
-    print(parent1, parent2)
+    # print(parent1, parent2)
     return pop[parent1], pop[parent2]
 
 #single point crossover
@@ -172,17 +171,57 @@ def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[s
                             parent2 = p
                             break
         elif len(parent1) == 3 and len(parent2) == 4:
-            pass
+            pos = np.random.randint(0, 4)
+            tmp1, tmp2 = list(parent1), list(parent2)
+            print("parents", parent1, parent2)
+            print("pos", pos)
+            if pos < len(parent1):
+                tmp = tmp1[pos]
+                tmp1[pos] = tmp2[pos]
+                tmp2[pos] = tmp
+                print("1st cond", tmp1, tmp2)
+                if tmp1[pos] != tmp2[pos]:
+                    for p in pop:
+                        if p[pos] == tmp1[pos]:
+                            if p != parent1:
+                                parent1 = p
+                                break
+                    for p in pop:
+                        if p[pos] == tmp2[pos]:
+                            if p != parent2:
+                                parent2 = p
+                                break
+                print("parents", parent1, parent2)
+            elif pos > len(parent1):
+                pos2 = np.random.randint(0, 3)
+                print("Pos2", pos2)
+                tmp = tmp1[pos2]
+                tmp1[pos2] = tmp2[pos]
+                tmp2[pos] = tmp
+                print("tmp1", tmp1, "tmp2", tmp2)
+                if tmp1[pos2] != tmp2[pos]:
+                    for p in pop:
+                        if p[pos2] == tmp1[pos2]:
+                            if p != parent1:
+                                parent1 = p
+                                break
+                    for p in pop:
+                        if pos < len(p):
+                            if p[pos] == tmp2[pos]:
+                                if p != parent2:
+                                    parent2 = p
+                                    break
+                print("parent:", parent1, parent2)
         elif len(parent1) == 4 and len(parent2) == 3:
-            pass
+            pos = np.random.randint(0, 4)
         elif len(parent1) == 3 and len(parent2) == 5:
-            pass
+            pos = np.random.randint(0, 4)
         elif len(parent1) == 5 and len(parent2) == 3:
-            pass
+            pos = np.random.randint(0, 4)
         elif len(parent1) == 4 and len(parent2) == 5:
-            pass
+            pos = np.random.randint(0, 4)
         elif len(parent1) == 5 and len(parent2) == 4:
-            pass
+            pos = np.random.randint(0, 4)
         elif len(parent1) == 4 and len(parent2) == 4:
             pos = np.random.randint(0, 4)
             tmp1 = list(parent1)
@@ -192,22 +231,25 @@ def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[s
             tmp2[pos] = tmp
             if tmp1[pos] != tmp2[pos]:
                 for p in pop:
-                    if p[pos] == tmp1[pos]:
-                        if p != parent1:
-                            parent1 = p
-                            break
+                    if pos < len(p):
+                        if p[pos] == tmp1[pos]:
+                            if p != parent1:
+                                parent1 = p
+                                break
                 for p in pop:
-                    if p[pos] == tmp2[pos]:
-                        if p != parent2:
-                            parent2 = p
-                            break
-        elif len(parent1) == 5 and len(parent2) == 5:
-            pass
+                    if pos < len(p):
+                        if p[pos] == tmp2[pos]:
+                            if p != parent2:
+                                parent2 = p
+                                break
     return parent1, parent2
 
 #mutation rate of 0.1
-def mutate(pop: list[str], parent1: str, parent2: str, mutation: float=0.1) -> str:
-    return ""
+def mutate(pop: list[str], parent1: str, parent2: str, p_m: float=0.1) -> tuple[str, str]:
+    choice = np.random.choice([0, 1], p=[1-p_m, p_m])
+    if choice:
+        pass
+    return "", ""
 
 def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
     for p in pop:
@@ -223,7 +265,7 @@ def genetic_algorithm(pop: list[str], csv: str, \
     for gen in range(generations):
         fits = get_fitness(pop, csv, weights=weights)
         p1, p2 = select(pop=pop, fitness=fits)
-        cross_pt = np.random.randint(0, 3)
+
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
@@ -232,12 +274,12 @@ def genetic_algorithm(pop: list[str], csv: str, \
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
-    # print("Pop", pop)
+    print("Pop", pop)
     # for p in pop:
     #     if len(p) == 5:
     #         print(p)
     # fits = [12,8,6,4]
     # print(select(pop=pop, fitness=fits))
-    # p_c = 0.75
-    # print(crossover(pop=pop, parent1='4231', parent2='4411', p_c=p_c))
+    p_c = 0.75
+    print(crossover(pop=pop, parent1='433', parent2='4411', p_c=p_c))
     # genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.75, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
