@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd  # type: ignore
 import time
 import matplotlib.pyplot as plt # type: ignore
+import random
 
 formations = [
     "5-4-1",
@@ -74,6 +75,12 @@ def generate_random_pop() -> list[int]:
             pop.append([defense, midfield, attack])
     return pop
 
+def random_permutation(iterable, r=None):
+    "Random selection from itertools.permutations(iterable, r)"
+    pool = tuple(iterable)
+    r = len(pool) if r is None else r
+    return tuple(random.sample(pool, r))
+
 def generate_pop():
     L = ['3-5-2', '3-4-3', '4-3-3', '4-5-1', '4-2-3-1', '4-4-2', '5-3-2', '5-4-1', '4-4-1-1', '4-1-2-1-2']
     size = len(L)
@@ -140,25 +147,62 @@ def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
 #single point crossover
 def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[str, str]:
     choice = np.random.choice([0, 1], p=[1-p_c, p_c])
+    # print("choice", choice)
+    choice = 1
     # https://stackoverflow.com/questions/10631473/str-object-does-not-support-item-assignment
     if choice:
-        pos = np.random.randint(0, 3)
-        tmp1 = list(parent1)
-        tmp2 = list(parent2)
-        tmp = tmp1[pos]
-        tmp1[pos] = tmp2[pos]
-        tmp2[pos] = tmp
-        if tmp1[pos] != tmp2[pos]:
-            for p in pop:
-                if p[pos] == tmp1[pos]:
-                    if len(p) == len(tmp1) and p != parent1:
-                        parent1 = p
-                        break
-            for p in pop:
-                if p[pos] == tmp2[pos]:
-                    if len(p)  == len(tmp2) and p != parent2:
-                        parent2 = p
-                        break
+        pop = list(random_permutation(pop))
+        print("Shuffled", pop)
+        if len(parent1) == 3 and len(parent2) == 3:
+            pos = np.random.randint(0, 3)
+            tmp1 = list(parent1)
+            tmp2 = list(parent2)
+            tmp = tmp1[pos]
+            tmp1[pos] = tmp2[pos]
+            tmp2[pos] = tmp
+            if tmp1[pos] != tmp2[pos]:
+                for p in pop:
+                    if p[pos] == tmp1[pos]:
+                        if len(p) == len(tmp1) and p != parent1:
+                            parent1 = p
+                            break
+                for p in pop:
+                    if p[pos] == tmp2[pos]:
+                        if len(p)  == len(tmp2) and p != parent2:
+                            parent2 = p
+                            break
+        elif len(parent1) == 3 and len(parent2) == 4:
+            pass
+        elif len(parent1) == 4 and len(parent2) == 3:
+            pass
+        elif len(parent1) == 3 and len(parent2) == 5:
+            pass
+        elif len(parent1) == 5 and len(parent2) == 3:
+            pass
+        elif len(parent1) == 4 and len(parent2) == 5:
+            pass
+        elif len(parent1) == 5 and len(parent2) == 4:
+            pass
+        elif len(parent1) == 4 and len(parent2) == 4:
+            pos = np.random.randint(0, 4)
+            tmp1 = list(parent1)
+            tmp2 = list(parent2)
+            tmp = tmp1[pos]
+            tmp1[pos] = tmp2[pos]
+            tmp2[pos] = tmp
+            if tmp1[pos] != tmp2[pos]:
+                for p in pop:
+                    if p[pos] == tmp1[pos]:
+                        if p != parent1:
+                            parent1 = p
+                            break
+                for p in pop:
+                    if p[pos] == tmp2[pos]:
+                        if p != parent2:
+                            parent2 = p
+                            break
+        elif len(parent1) == 5 and len(parent2) == 5:
+            pass
     return parent1, parent2
 
 #mutation rate of 0.1
@@ -188,8 +232,12 @@ def genetic_algorithm(pop: list[str], csv: str, \
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
+    # print("Pop", pop)
+    # for p in pop:
+    #     if len(p) == 5:
+    #         print(p)
     # fits = [12,8,6,4]
     # print(select(pop=pop, fitness=fits))
-    p_c = 0.75
-    print(crossover(pop=pop, parent1='352', parent2='442', p_c=p_c))
+    # p_c = 0.75
+    # print(crossover(pop=pop, parent1='4231', parent2='4411', p_c=p_c))
     # genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.75, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
