@@ -76,10 +76,20 @@ def generate_random_pop() -> list[int]:
 
 def genetic_algorithm(pop: list[str], csv: str, generations: int=10) -> tuple[str, float]:
     start = time.time_ns()
+
     for gen in range(generations):
         fits = get_fitness(pop, csv)
-        print(fits)
-        p1, p2 = select(pop, fits)
+        # for i in range(len(fits)):
+        #     print(fits[i], pop[i])
+        # print(fits)
+        # d = set()
+        # for i in range(len(pop)):
+        #     d |= {p1}
+        #     d |= {p2}
+        #     p1, p2 = select(pop, fits)
+        #     while p1 == p2 and p1 not in d and p2 not in d:
+        #         p1, p2 = select(pop, fits)
+        
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
@@ -92,7 +102,6 @@ def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
     for i, fit in enumerate(fitness):
         fit_n = fit/total_fitness
         probs_fits.append(fit_n)
-    # print(probs_fits)
     parents = []
     for iter in range(0, 2):
         prev = probs_fits[0]
@@ -127,13 +136,13 @@ def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
             return True
     return False
 
-def eval_fitness(csv_file: str, chromosome1: str) -> float:
+def eval_fitness(csv_file: str, chromosome: str) -> float:
     df = pd.read_csv(csv_file)
     # https://www.geeksforgeeks.org/get-a-specific-row-in-a-given-pandas-dataframe/
     # stats = df.loc[df['Formations'] ==  chromosome1]
     # return fitness (what data type, most likely float)
     df['Formations'] = df['Formations'].astype('string')
-    idx = df['Formations'] == chromosome1
+    idx = df['Formations'] == chromosome
     avg_goals_scored = np.mean(df.loc[idx, ['Goals scored']])
     avg_goals_conceded = np.mean(df.loc[idx, ['Goals conceded']])
     avg_shots_on_target = np.mean(df.loc[idx, ['Shots on target']])
@@ -147,7 +156,9 @@ def eval_fitness(csv_file: str, chromosome1: str) -> float:
     avg_num_counter = np.mean(df.loc[idx, ['Number of counter attacks']])
     avg_free_kick = np.mean(df.loc[idx, ['Number of free kicks']])
     #print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target, avg_total, avg_poss, avg_pass, avg_offense, avg_pen_scored, avg_pen_missed, avg_num_corners, avg_num_counter, avg_free_kick)
-    return avg_goals_scored+avg_goals_conceded+avg_shots_on_target+avg_total+avg_poss+avg_pass+avg_offense+avg_pen_scored+avg_pen_missed+avg_num_corners+avg_num_counter+avg_free_kick
+    return avg_goals_scored*0.1+avg_goals_conceded*(-0.2)+\
+    avg_shots_on_target+avg_total+avg_poss+avg_pass+avg_offense+avg_pen_scored+\
+    avg_pen_missed+avg_num_corners+avg_num_counter+avg_free_kick
 
 def find_indices(pop: list[list[int]]) -> dict:
     d = dict()
@@ -178,14 +189,12 @@ def generate_pop():
 def get_fitness(pop: list[str], csv: str) -> list[float]:
     fitnesses = []
     for p in pop:
-        print(p)
-        fitness = eval_fitness(csv_file=csv, chromosome1=p)
+        # print(p)
+        fitness = eval_fitness(csv_file=csv, chromosome=p)
         fitnesses.append(fitness)
     return fitnesses
 
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
-    fits = [3, 1, 4, 9, 2, 10, 32, 41, 5, 8]
-    # probs = [12, 8, 6, 4]
-    print(select(pop=pop, fitness=fits))
+    genetic_algorithm(pop=pop, csv=csv_file, generations=1)
