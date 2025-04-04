@@ -138,17 +138,31 @@ def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
     return pop[parent1], pop[parent2]
 
 #single point crossover
-def crossover(parent1: str, parent2: str, crossover_pt: int) -> tuple[str, str]:
-    if crossover_pt == 0:
-        pass
-    elif crossover_pt == 1:
-        pass
-    elif crossover_pt == 2:
-        pass
-    return parent1[:crossover_pt], parent2[crossover_pt:]
+def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[str, str]:
+    choice = np.random.choice([0, 1], p=[1-p_c, p_c])
+    # https://stackoverflow.com/questions/10631473/str-object-does-not-support-item-assignment
+    if choice:
+        pos = np.random.randint(0, 3)
+        tmp1 = list(parent1)
+        tmp2 = list(parent2)
+        tmp = tmp1[pos]
+        tmp1[pos] = tmp2[pos]
+        tmp2[pos] = tmp
+        print("Index", pos, tmp1, tmp2, parent1, parent2)
+        if tmp1[pos] == tmp2[pos]:
+            pass
+        else:
+            for p in pop:
+                if p[pos] == tmp1[pos]:
+                    if len(p) == len(tmp1) and p != parent1:
+                        print("if", p[pos], p)
+                elif p[pos] == tmp2[pos]:
+                    if len(p) == len(tmp2) and p != parent2:
+                        print("no", p[pos], p)
+    return "", ""
 
 #mutation rate of 0.1
-def mutate(pop: list[str], mutation: float=0.1) -> str:
+def mutate(pop: list[str], parent1: str, parent2: str, mutation: float=0.1) -> str:
     return ""
 
 def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
@@ -158,12 +172,14 @@ def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
             return True
     return False
 
-def genetic_algorithm(pop: list[str], csv: str, generations: int=10, weights: float=0.2) -> tuple[str, float]:
+def genetic_algorithm(pop: list[str], csv: str, \
+    generations: int=10, p_c: float=0.6, weights: float=0.2) -> tuple[str, float]:
+
     start = time.time_ns()
     for gen in range(generations):
         fits = get_fitness(pop, csv, weights=weights)
         p1, p2 = select(pop=pop, fitness=fits)
-
+        cross_pt = np.random.randint(0, 3)
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
@@ -174,4 +190,6 @@ if __name__ == "__main__":
     pop = generate_pop()
     # fits = [12,8,6,4]
     # print(select(pop=pop, fitness=fits))
-    # genetic_algorithm(pop=pop, csv=csv_file, generations=1, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
+    p_c = 0.75
+    crossover(pop=pop, parent1='352', parent2='442', p_c=p_c)
+    # genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.75, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
