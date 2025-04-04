@@ -116,32 +116,29 @@ def eval_fitness(csv_file: str, chromosome: str, weights: float) -> float:
 
 # tournament selection
 def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
-    total_fitness = sum(fitness)
-    probs_fits = []
-    for i, fit in enumerate(fitness):
-        fit_n = fit/total_fitness
-        probs_fits.append(fit_n)
-    parents = []
-    for iter in range(0, 2):
-        prev = probs_fits[0]
-        calc = prev
-        rand_choice = np.random.random()
-        cum_probs = []
-        for i in range(len(probs_fits)):
-            if i != 0:
-                calc = probs_fits[i]+prev
-            cum_probs.append(calc)
-            prev = calc
-        else:
-            for i in range(len(cum_probs)):
-                if rand_choice < cum_probs[i]:
-                    index = i
-                    break
-            parents.append(index)
-    return pop[parents[0]], pop[parents[1]]
+    total_fitness = np.sum(fitness)
+    normalized_fits = np.array(fitness)/total_fitness
+    parent1 = 0
+    parent2 = 0
+    while parent1 == parent2:
+        cum_probs = np.cumsum(normalized_fits)
+        prob = np.random.random()
+        for index, pro in enumerate(cum_probs):
+            if prob < pro:
+                parent1 = index
+                break
+        
+        prob = np.random.random()
+        for i, pro in enumerate(cum_probs):
+            prob = np.random.random()
+            if prob < pro:
+                parent2 = i
+                break
+    print(parent1, parent2)
+    return pop[parent1], pop[parent2]
 
 #mutation rate of 0.1
-def mutate(chromosome1: str, chromsome2: str, mutation: float=0.1) -> str:
+def mutate(pop: list[str], mutation: float=0.1) -> str:
     return ""
 
 #single point crossover
@@ -169,4 +166,7 @@ def genetic_algorithm(pop: list[str], csv: str, generations: int=10, weights: fl
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
-    genetic_algorithm(pop=pop, csv=csv_file, generations=1, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
+    # fits = [12,8,6,4]
+    # for i in range(20):
+    #     select(pop=pop, fitness=fits)
+    # genetic_algorithm(pop=pop, csv=csv_file, generations=1, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
