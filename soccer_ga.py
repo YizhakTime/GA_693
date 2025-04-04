@@ -74,27 +74,45 @@ def generate_random_pop() -> list[int]:
             pop.append([defense, midfield, attack])
     return pop
 
-def genetic_algorithm(pop: list[str], csv: str, generations: int=10, weights: float=0.2) -> tuple[str, float]:
-    start = time.time_ns()
+def generate_pop():
+    L = ['3-5-2', '3-4-3', '4-3-3', '4-5-1', '4-2-3-1', '4-4-2', '5-3-2', '5-4-1', '4-4-1-1', '4-1-2-1-2']
+    size = len(L)
+    for i in range(size):
+        L.append(L[i].replace('-', ''))
+    del L[:10]
+    return L
 
-    for gen in range(generations):
-        fits = get_fitness(pop, csv, weights=weights)
+def get_fitness(pop: list[str], csv: str, weights: list[float]) -> list[float]:
+    fitnesses = []
+    for p in pop:
+        # print(p)
+        fitness = eval_fitness(csv_file=csv, chromosome=p, weights=weights)
+        fitnesses.append(fitness)
+    return fitnesses
 
-        for i in range(len(fits)):
-            print(fits[i], pop[i])
-        # print(fits)
-        # d = set()
-        # for i in range(len(pop)):
-        #     d |= {p1}
-        #     d |= {p2}
-        #     p1, p2 = select(pop, fits)
-        #     while p1 == p2 and p1 not in d and p2 not in d:
-        #         p1, p2 = select(pop, fits)
-        
-    end = time.time_ns()
-    time_ns = end-start
-    total = time_ns/(10**9)
-    return "", total
+def eval_fitness(csv_file: str, chromosome: str, weights: float) -> float:
+    df = pd.read_csv(csv_file)
+    # https://www.geeksforgeeks.org/get-a-specific-row-in-a-given-pandas-dataframe/
+    # stats = df.loc[df['Formations'] ==  chromosome1]
+    # return fitness (what data type, most likely float)
+    df['Formations'] = df['Formations'].astype('string')
+    idx = df['Formations'] == chromosome
+    avg_goals_scored = np.mean(df.loc[idx, ['Goals scored']])
+    avg_goals_conceded = np.mean(df.loc[idx, ['Goals conceded']])
+    avg_shots_on_target = np.mean(df.loc[idx, ['Shots on target']])
+    avg_total = np.mean(df.loc[idx, ['Total shots']])
+    avg_poss = np.mean(df.loc[idx, ['Possession']])
+    avg_pass = np.mean(df.loc[idx, ['Passing accuracy']])
+    avg_offense = np.mean(df.loc[idx, ['Offensive duels won']])
+    avg_pen_scored = np.mean(df.loc[idx, ['Penalties scored']])
+    avg_pen_missed = np.mean(df.loc[idx, ['Penalties missed']])
+    avg_num_corners =  np.mean(df.loc[idx, ['Number of corners']])
+    avg_num_counter = np.mean(df.loc[idx, ['Number of counter attacks']])
+    avg_free_kick = np.mean(df.loc[idx, ['Number of free kicks']])
+    #print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target, avg_total, avg_poss, avg_pass, avg_offense, avg_pen_scored, avg_pen_missed, avg_num_corners, avg_num_counter, avg_free_kick)
+    return avg_goals_scored*(0.2)+avg_goals_conceded*(-0.2)+\
+    avg_shots_on_target*(0.2)+avg_total*(0.02)+avg_poss*(0.03)+avg_pass*(0.1)+avg_offense*(0.1)+\
+    avg_pen_scored*(0.1)+avg_pen_missed*(-0.2)+avg_num_corners*(0.05)+avg_num_counter*(0.1)+avg_free_kick*(0.1)
 
 # tournament selection
 def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
@@ -137,47 +155,18 @@ def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
             return True
     return False
 
-def eval_fitness(csv_file: str, chromosome: str, weights: float) -> float:
-    df = pd.read_csv(csv_file)
-    # https://www.geeksforgeeks.org/get-a-specific-row-in-a-given-pandas-dataframe/
-    # stats = df.loc[df['Formations'] ==  chromosome1]
-    # return fitness (what data type, most likely float)
-    df['Formations'] = df['Formations'].astype('string')
-    idx = df['Formations'] == chromosome
-    avg_goals_scored = np.mean(df.loc[idx, ['Goals scored']])
-    avg_goals_conceded = np.mean(df.loc[idx, ['Goals conceded']])
-    avg_shots_on_target = np.mean(df.loc[idx, ['Shots on target']])
-    avg_total = np.mean(df.loc[idx, ['Total shots']])
-    avg_poss = np.mean(df.loc[idx, ['Possession']])
-    avg_pass = np.mean(df.loc[idx, ['Passing accuracy']])
-    avg_offense = np.mean(df.loc[idx, ['Offensive duels won']])
-    avg_pen_scored = np.mean(df.loc[idx, ['Penalties scored']])
-    avg_pen_missed = np.mean(df.loc[idx, ['Penalties missed']])
-    avg_num_corners =  np.mean(df.loc[idx, ['Number of corners']])
-    avg_num_counter = np.mean(df.loc[idx, ['Number of counter attacks']])
-    avg_free_kick = np.mean(df.loc[idx, ['Number of free kicks']])
-    #print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target, avg_total, avg_poss, avg_pass, avg_offense, avg_pen_scored, avg_pen_missed, avg_num_corners, avg_num_counter, avg_free_kick)
-    return avg_goals_scored*(0.2)+avg_goals_conceded*(-0.2)+\
-    avg_shots_on_target*(0.2)+avg_total*(0.02)+avg_poss*(0.03)+avg_pass*(0.1)+avg_offense*(0.1)+\
-    avg_pen_scored*(0.1)+avg_pen_missed*(-0.2)+avg_num_corners*(0.05)+avg_num_counter*(0.1)+avg_free_kick*(0.1)
-
-def generate_pop():
-    L = ['3-5-2', '3-4-3', '4-3-3', '4-5-1', '4-2-3-1', '4-4-2', '5-3-2', '5-4-1', '4-4-1-1', '4-1-2-1-2']
-    size = len(L)
-    for i in range(size):
-        L.append(L[i].replace('-', ''))
-    del L[:10]
-    return L
-
-def get_fitness(pop: list[str], csv: str) -> list[float]:
-    fitnesses = []
-    for p in pop:
-        # print(p)
-        fitness = eval_fitness(csv_file=csv, chromosome=p)
-        fitnesses.append(fitness)
-    return fitnesses
+def genetic_algorithm(pop: list[str], csv: str, generations: int=10, weights: float=0.2) -> tuple[str, float]:
+    start = time.time_ns()
+    for gen in range(generations):
+        fits = get_fitness(pop, csv, weights=weights)
+        for i in range(len(fits)):
+            print(fits[i], pop[i])
+    end = time.time_ns()
+    time_ns = end-start
+    total = time_ns/(10**9)
+    return "", total
 
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
-    genetic_algorithm(pop=pop, csv=csv_file, generations=1, weights=0.2)
+    genetic_algorithm(pop=pop, csv=csv_file, generations=1, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
