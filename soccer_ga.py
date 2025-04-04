@@ -79,8 +79,9 @@ def genetic_algorithm(pop: list[str], csv: str, generations: int=10) -> tuple[st
 
     for gen in range(generations):
         fits = get_fitness(pop, csv)
-        # for i in range(len(fits)):
-        #     print(fits[i], pop[i])
+
+        for i in range(len(fits)):
+            print(fits[i], pop[i])
         # print(fits)
         # d = set()
         # for i in range(len(pop)):
@@ -156,9 +157,9 @@ def eval_fitness(csv_file: str, chromosome: str) -> float:
     avg_num_counter = np.mean(df.loc[idx, ['Number of counter attacks']])
     avg_free_kick = np.mean(df.loc[idx, ['Number of free kicks']])
     #print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target, avg_total, avg_poss, avg_pass, avg_offense, avg_pen_scored, avg_pen_missed, avg_num_corners, avg_num_counter, avg_free_kick)
-    return avg_goals_scored*0.1+avg_goals_conceded*(-0.2)+\
-    avg_shots_on_target+avg_total+avg_poss+avg_pass+avg_offense+avg_pen_scored+\
-    avg_pen_missed+avg_num_corners+avg_num_counter+avg_free_kick
+    return avg_goals_scored*(0.2)+avg_goals_conceded*(-0.2)+\
+    avg_shots_on_target*(0.2)+avg_total*(0.02)+avg_poss*(0.03)+avg_pass*(0.1)+avg_offense*(0.1)+\
+    avg_pen_scored*(0.1)+avg_pen_missed*(-0.2)+avg_num_corners*(0.05)+avg_num_counter*(0.1)+avg_free_kick*(0.1)
 
 def find_indices(pop: list[list[int]]) -> dict:
     d = dict()
