@@ -74,11 +74,11 @@ def generate_random_pop() -> list[int]:
             pop.append([defense, midfield, attack])
     return pop
 
-def genetic_algorithm(pop: list[str], csv: str, generations: int=10) -> tuple[str, float]:
+def genetic_algorithm(pop: list[str], csv: str, generations: int=10, weights: float=0.2) -> tuple[str, float]:
     start = time.time_ns()
 
     for gen in range(generations):
-        fits = get_fitness(pop, csv)
+        fits = get_fitness(pop, csv, weights=weights)
 
         for i in range(len(fits)):
             print(fits[i], pop[i])
@@ -137,7 +137,7 @@ def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
             return True
     return False
 
-def eval_fitness(csv_file: str, chromosome: str) -> float:
+def eval_fitness(csv_file: str, chromosome: str, weights: float) -> float:
     df = pd.read_csv(csv_file)
     # https://www.geeksforgeeks.org/get-a-specific-row-in-a-given-pandas-dataframe/
     # stats = df.loc[df['Formations'] ==  chromosome1]
@@ -161,24 +161,6 @@ def eval_fitness(csv_file: str, chromosome: str) -> float:
     avg_shots_on_target*(0.2)+avg_total*(0.02)+avg_poss*(0.03)+avg_pass*(0.1)+avg_offense*(0.1)+\
     avg_pen_scored*(0.1)+avg_pen_missed*(-0.2)+avg_num_corners*(0.05)+avg_num_counter*(0.1)+avg_free_kick*(0.1)
 
-def find_indices(pop: list[list[int]]) -> dict:
-    d = dict()
-    for i, ind in enumerate(pop):
-        if tuple(ind) not in d:
-            d[tuple(ind)] = [i]
-        else:
-            d[tuple(ind)].append(i)
-    return d
-
-def remove_duplicates(pop: list[list[int]]) -> list[list[int]]:
-    ind_keys = find_indices(pop)
-    new_pop = list()
-    for ind in ind_keys:
-        for i, elem in enumerate(ind_keys[ind]):
-            if i == 0:
-                new_pop.append(pop[elem])
-    return new_pop
-
 def generate_pop():
     L = ['3-5-2', '3-4-3', '4-3-3', '4-5-1', '4-2-3-1', '4-4-2', '5-3-2', '5-4-1', '4-4-1-1', '4-1-2-1-2']
     size = len(L)
@@ -198,4 +180,4 @@ def get_fitness(pop: list[str], csv: str) -> list[float]:
 if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
-    genetic_algorithm(pop=pop, csv=csv_file, generations=1)
+    genetic_algorithm(pop=pop, csv=csv_file, generations=1, weights=0.2)
