@@ -148,18 +148,18 @@ def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[s
         tmp = tmp1[pos]
         tmp1[pos] = tmp2[pos]
         tmp2[pos] = tmp
-        print("Index", pos, tmp1, tmp2, parent1, parent2)
-        if tmp1[pos] == tmp2[pos]:
-            pass
-        else:
+        if tmp1[pos] != tmp2[pos]:
             for p in pop:
                 if p[pos] == tmp1[pos]:
                     if len(p) == len(tmp1) and p != parent1:
-                        print("if", p[pos], p)
-                elif p[pos] == tmp2[pos]:
-                    if len(p) == len(tmp2) and p != parent2:
-                        print("no", p[pos], p)
-    return "", ""
+                        parent1 = p
+                        break
+            for p in pop:
+                if p[pos] == tmp2[pos]:
+                    if len(p)  == len(tmp2) and p != parent2:
+                        parent2 = p
+                        break
+    return parent1, parent2
 
 #mutation rate of 0.1
 def mutate(pop: list[str], parent1: str, parent2: str, mutation: float=0.1) -> str:
@@ -191,5 +191,5 @@ if __name__ == "__main__":
     # fits = [12,8,6,4]
     # print(select(pop=pop, fitness=fits))
     p_c = 0.75
-    crossover(pop=pop, parent1='352', parent2='442', p_c=p_c)
+    print(crossover(pop=pop, parent1='352', parent2='442', p_c=p_c))
     # genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.75, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
