@@ -137,12 +137,18 @@ def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
     print(parent1, parent2)
     return pop[parent1], pop[parent2]
 
+#single point crossover
+def crossover(parent1: str, parent2: str, crossover_pt: int) -> tuple[str, str]:
+    if crossover_pt == 0:
+        pass
+    elif crossover_pt == 1:
+        pass
+    elif crossover_pt == 2:
+        pass
+    return parent1[:crossover_pt], parent2[crossover_pt:]
+
 #mutation rate of 0.1
 def mutate(pop: list[str], mutation: float=0.1) -> str:
-    return ""
-
-#single point crossover
-def crossover(chromosome1: str, chromsome2: str) -> str:
     return ""
 
 def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
@@ -156,8 +162,8 @@ def genetic_algorithm(pop: list[str], csv: str, generations: int=10, weights: fl
     start = time.time_ns()
     for gen in range(generations):
         fits = get_fitness(pop, csv, weights=weights)
-        for i in range(len(fits)):
-            print(fits[i], pop[i])
+        p1, p2 = select(pop=pop, fitness=fits)
+
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
@@ -167,6 +173,5 @@ if __name__ == "__main__":
     csv_file = 'data.csv'
     pop = generate_pop()
     # fits = [12,8,6,4]
-    # for i in range(20):
-    #     select(pop=pop, fitness=fits)
+    # print(select(pop=pop, fitness=fits))
     # genetic_algorithm(pop=pop, csv=csv_file, generations=1, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
