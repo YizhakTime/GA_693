@@ -146,6 +146,7 @@ def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
 #single point crossover
 def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[str, str]:
     choice = np.random.choice([0, 1], p=[1-p_c, p_c])
+    # might need to handle duplicates
     # print("choice", choice)
     choice = 1
     # https://stackoverflow.com/questions/10631473/str-object-does-not-support-item-assignment
@@ -241,14 +242,152 @@ def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[s
                                     parent1 = p
                                     break
         elif len(parent1) == 3 and len(parent2) == 5:
-            pos = np.random.randint(0, 4)
-
+            pos = np.random.randint(0, 5)
+            l1, l2 = list(parent1), list(parent2)
+            if pos < len(parent1):
+                tmp = l1[pos]
+                l1[pos] = l2[pos]
+                l2[pos] = tmp
+                if l1[pos] != l2[pos]:
+                    for p in pop:
+                        if p[pos] == l1[pos]:
+                            if p != parent1:
+                                parent1 = p
+                                break
+                    for p in pop:
+                        if p[pos] == l2[pos]:
+                            if p != parent2:
+                                parent2 = p
+                                break
+            else:
+                index = np.random.randint(0, 3)
+                tmp = l2[pos]
+                l2[pos] = l1[index]
+                l1[index] = tmp
+                if l1[index] != l2[pos]:
+                    for p in pop:
+                        if p[index] == l1[index]:
+                            if p != parent1:
+                                parent1 = p
+                                break
+                    for p in pop:
+                        if pos < len(p):
+                            if p[pos] == l2[pos]:
+                                if p != parent2:
+                                    parent2 = p
+                                    break
         elif len(parent1) == 5 and len(parent2) == 3:
-            pos = np.random.randint(0, 4)
+            pos = np.random.randint(0, 5)
+            l1, l2 = list(parent1), list(parent2)
+            if pos < len(parent2):
+                tmp = l1[pos]
+                l1[pos] = l2[pos]
+                l2[pos] = tmp
+                if l1[pos] != l2[pos]:
+                    for p in pop:
+                        if p[pos] == l1[pos]:
+                            if p != parent1:
+                                parent1 = p
+                                break
+                    for p in pop:
+                        if p[pos] == l2[pos]:
+                            if p != parent2:
+                                parent2 = p
+                                break
+            else:
+                index = np.random.randint(0, 3)
+                tmp = l1[pos]
+                l1[pos] = l2[index]
+                l2[index] = tmp
+                if l2[index] != l1[pos]:
+                    for p in pop:
+                        if p[index] == l2[index]:
+                            if p != parent2:
+                                parent2 = p
+                                break
+                    for p in pop:
+                        if pos < len(p):
+                            if p[pos] == l1[pos]:
+                                if p != parent1:
+                                    parent1 = p
+                                    break
         elif len(parent1) == 4 and len(parent2) == 5:
-            pos = np.random.randint(0, 4)
+            pos = np.random.randint(0, 5)
+            l1, l2 = list(parent1), list(parent2)
+            if pos < len(parent1):
+                tmp = l1[pos]
+                l1[pos] = l2[pos]
+                l2[pos] = tmp
+                if l1[pos] != l2[pos]:
+                    for p in pop:
+                        if pos < len(p):
+                            if p[pos] == l1[pos]:
+                                if p != parent1:
+                                    parent1 = p
+                                    break
+                    for p in pop:
+                        if pos < len(p):
+                            if p[pos] == l2[pos]:
+                                if p != parent2:
+                                    parent2 = p
+                                    break
+            else:
+                index = np.random.randint(0, 4)
+                tmp = l2[pos]
+                l2[pos] = l1[index]
+                l1[index] = tmp
+                if l1[index] != l2[pos]:
+                    for p in pop:
+                        if index < len(p):
+                            if p[index] == l1[index]:
+                                if p != parent1:
+                                    parent1 = p
+                                    break
+                    for p in pop:
+                        if pos < len(p):
+                            if p[pos] == l2[pos]:
+                                if p != parent2:
+                                    parent2 = p
+                                    break
         elif len(parent1) == 5 and len(parent2) == 4:
-            pos = np.random.randint(0, 4)
+            pos = np.random.randint(0, 5)
+            l1, l2 = list(parent1), list(parent2)
+            if pos < len(parent2):
+                tmp = l1[pos]
+                l1[pos] = l2[pos]
+                l2[pos] = tmp
+                if l1[pos] != l2[pos]:
+                    for p in pop:
+                        if pos < len(p):
+                            if p[pos] == l1[pos]:
+                                if p != parent1:
+                                    parent1 = p
+                                    break
+                    for p in pop:
+                        if pos < len(p):
+                            if p[pos] == l2[pos]:
+                                if p != parent2:
+                                    parent2 = p
+                                    break
+            else:
+                index = np.random.randint(0, 4)
+                tmp = l2[index]
+                l2[index] = l1[pos]
+                l1[pos] = tmp
+                if l1[pos] != l2[index]:
+                    for p in pop:
+                        if index < len(p):
+                            if p[index] == l2[index]:
+                                if p != parent2:
+                                    parent2 = p
+                                    break
+                    for p in pop:
+                        if pos < len(p):
+                            if p[pos] == l1[pos]:
+                                if p != parent1:
+                                    parent1 = p
+                                    break
+
         elif len(parent1) == 4 and len(parent2) == 4:
             # check if random index doesn't index into str thats smaller than index
             pos = np.random.randint(0, 4)
@@ -309,6 +448,6 @@ if __name__ == "__main__":
     # fits = [12,8,6,4]
     # print(select(pop=pop, fitness=fits))
     p_c = 0.75
-    # for i in range(100):
-    print(crossover(pop=pop, parent1='4411', parent2='433', p_c=p_c))
+    for i in range(100):
+        print(crossover(pop=pop, parent1='41212', parent2='4231', p_c=p_c))
     # genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.75, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
