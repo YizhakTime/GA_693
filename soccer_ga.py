@@ -31,50 +31,6 @@ formations = [
     "3-1-4-2"
 ]
 
-def generate_random_pop() -> list[int]:
-    size = len(formations)
-    pop = []
-    for formation in formations:
-        #https://stackoverflow.com/questions/40954324/how-to-remove-hyphens-from-a-list-of-strings
-        new_form = formation.replace('-', '')
-        if len(new_form) == 3:
-            defense = int(new_form[0])
-            midfield = int(new_form[1])
-            attack = int(new_form[2])
-            pop.append([defense, midfield, attack])
-
-        elif len(new_form) == 4:
-            if int(new_form[0]) == 4:
-                defense = int(new_form[0])
-                if new_form == '4312' or new_form == '4321' or new_form == '4222' or new_form == '4213' \
-                    or new_form == '4141' or new_form == '4132':
-                    midfield = int(new_form[1])+int(new_form[2])
-                    attack = int(new_form[3])
-                elif new_form == '4231' or new_form == '4123':
-                    midfield = 3
-                    attack = 3
-            elif int(new_form[0]) == 5:
-                defense = int(new_form[0])
-                midfield = int(new_form[1])+int(new_form[2])
-                attack = int(new_form[3])
-            else:
-                if new_form == '3511' or new_form == '3421':
-                    defense = int(new_form[0])
-                    midfield = int(new_form[1])
-                    attack = int(new_form[2])+int(new_form[3])
-                elif new_form == '3412' or new_form == '3142':
-                    defense = int(new_form[0])
-                    midfield = int(new_form[1])+int(new_form[2])
-                    attack = int(new_form[3])                
-            pop.append([defense, midfield, attack])
-        
-        elif len(new_form) == 5:
-            defense = int(new_form[0])
-            midfield = int(new_form[1])+int(new_form[2])+int(new_form[3])
-            attack = int(new_form[4])
-            pop.append([defense, midfield, attack])
-    return pop
-
 def random_permutation(iterable, r=None):
     "Random selection from itertools.permutations(iterable, r)"
     pool = tuple(iterable)
