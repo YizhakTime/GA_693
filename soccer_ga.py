@@ -415,8 +415,20 @@ def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[s
 def mutate(pop: list[str], parent1: str, parent2: str, p_m: float=0.1) -> tuple[str, str]:
     choice = np.random.choice([0, 1], p=[1-p_m, p_m])
     if choice:
-        pass
-    return "", ""
+        # if mutation occurs
+        while True:
+            rand_ind = np.random.randint(0, len(pop))
+            # print(rand_ind)
+            rand_parent = np.random.randint(0, 2)
+            if rand_parent:
+                # if rand parent is 1, then replace 2nd parent
+                parent2 = pop[rand_ind]
+            else:
+                # else if rand parent is 0, replace 1st parent
+                parent1 = pop[rand_ind]
+            if parent1 != parent2:
+                break
+    return parent1, parent2
 
 def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
     for p in pop:
@@ -427,7 +439,6 @@ def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
 
 def genetic_algorithm(pop: list[str], csv: str, \
     generations: int=10, p_c: float=0.6, weights: float=0.2) -> tuple[str, float]:
-
     start = time.time_ns()
     for gen in range(generations):
         fits = get_fitness(pop, csv, weights=weights)
@@ -448,6 +459,8 @@ if __name__ == "__main__":
     # fits = [12,8,6,4]
     # print(select(pop=pop, fitness=fits))
     p_c = 0.75
+    # for i in range(100):
+    # print(crossover(pop=pop, parent1='41212', parent2='4231', p_c=p_c))
     for i in range(100):
-        print(crossover(pop=pop, parent1='41212', parent2='4231', p_c=p_c))
+        print(mutate(pop, '4231', '433'))
     # genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.75, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
