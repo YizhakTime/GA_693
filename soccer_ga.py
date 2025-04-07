@@ -45,19 +45,21 @@ def generate_pop():
     del L[:10]
     return L
 
-def get_fitness(pop: list[str], csv: str, weights: list[float]) -> list[float]:
-    fitnesses = []
+def get_fitness(pop: list[str], csv: str, weights: list[float]) -> tuple[list[float], list[np.ndarray], np.ndarray]:
+    fitnesses, all_m = [], []
     for p in pop:
         # print(p)
-        fitness = eval_fitness(csv_file=csv, chromosome=p, weights=weights)
+        fitness, metrics, weights = eval_fitness(csv_file=csv, chromosome=p, weights=weights)
+        all_m.append(metrics)
         fitnesses.append(fitness)
-    return fitnesses
+    return fitnesses, all_m, weights
 
-def eval_fitness(csv_file: str, chromosome: str, weights: float) -> float:
+def eval_fitness(csv_file: str, chromosome: str, weights: list[float]) -> tuple[float, np.ndarray, np.ndarray]:
     df = pd.read_csv(csv_file)
     # https://www.geeksforgeeks.org/get-a-specific-row-in-a-given-pandas-dataframe/
     # stats = df.loc[df['Formations'] ==  chromosome1]
     # return fitness (what data type, most likely float)
+    metrics = []
     df['Formations'] = df['Formations'].astype('string')
     idx = df['Formations'] == chromosome
     avg_goals_scored = np.mean(df.loc[idx, ['Goals scored']])
@@ -72,20 +74,42 @@ def eval_fitness(csv_file: str, chromosome: str, weights: float) -> float:
     avg_num_corners =  np.mean(df.loc[idx, ['Number of corners']])
     avg_num_counter = np.mean(df.loc[idx, ['Number of counter attacks']])
     avg_free_kick = np.mean(df.loc[idx, ['Number of free kicks']])
+    metrics.append(avg_goals_scored)
+    metrics.append(avg_goals_conceded)
+    metrics.append(avg_shots_on_target)
+    metrics.append(avg_total)
+    metrics.append(avg_poss)
+    metrics.append(avg_pass)
+    metrics.append(avg_offense)
+    metrics.append(avg_pen_scored)
+    metrics.append(avg_pen_missed)
+    metrics.append(avg_num_corners)
+    metrics.append(avg_num_counter)
+    metrics.append(avg_free_kick)
+    metrics = np.array(metrics)
+    weights = np.array(weights)
+    fit = metrics*weights
+    total_fitness = np.sum(fit)
+    return total_fitness, metrics, weights
     #print(avg_goals_scored, avg_goals_conceded, avg_shots_on_target, avg_total, avg_poss, avg_pass, avg_offense, avg_pen_scored, avg_pen_missed, avg_num_corners, avg_num_counter, avg_free_kick)
-    return avg_goals_scored*(0.2)+avg_goals_conceded*(-0.2)+\
-    avg_shots_on_target*(0.2)+avg_total*(0.02)+avg_poss*(0.03)+avg_pass*(0.1)+avg_offense*(0.1)+\
-    avg_pen_scored*(0.1)+avg_pen_missed*(-0.2)+avg_num_corners*(0.05)+avg_num_counter*(0.1)+avg_free_kick*(0.1)
+    # return avg_goals_scored*(0.2)+avg_goals_conceded*(-0.2)+\
+    # avg_shots_on_target*(0.2)+avg_total*(0.02)+avg_poss*(0.03)+avg_pass*(0.1)+avg_offense*(0.1)+\
+    # avg_pen_scored*(0.1)+avg_pen_missed*(-0.2)+avg_num_corners*(0.05)+avg_num_counter*(0.1)+avg_free_kick*(0.1)
 
 # tournament selection
-def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
-    total_fitness = np.sum(fitness)
+def select(pop: list[str], fitness: list[float]) -> tuple[str, str, int, int]:
+    # total_fitness = np.sum(fitness)
+    total_fitness = np.nansum(fitness)
+    print("total_fitness", total_fitness)
     normalized_fits = np.array(fitness)/total_fitness
-    parent1 = 0
-    parent2 = 0
+    print("normalized", normalized_fits)
+    parent1, parent2 = 0, 0
     while parent1 == parent2:
+        print("parents", parent1, parent2)
         cum_probs = np.cumsum(normalized_fits)
+        print("cum_probs", cum_probs)
         prob = np.random.random()
+        print("prob", prob)
         for index, pro in enumerate(cum_probs):
             if prob < pro:
                 parent1 = index
@@ -97,7 +121,7 @@ def select(pop: list[str], fitness: list[float]) -> tuple[str, str]:
                 parent2 = i
                 break
     # print(parent1, parent2)
-    return pop[parent1], pop[parent2]
+    return pop[parent1], pop[parent2], parent1, parent2
 
 #single point crossover
 def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[str, str]:
@@ -108,7 +132,7 @@ def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[s
     # https://stackoverflow.com/questions/10631473/str-object-does-not-support-item-assignment
     if choice:
         pop = list(random_permutation(pop))
-        print("Shuffled", pop)
+        # print("Shuffled", pop)
         if len(parent1) == 3 and len(parent2) == 3:
             pos = np.random.randint(0, 3)
             tmp1 = list(parent1)
@@ -386,19 +410,93 @@ def mutate(pop: list[str], parent1: str, parent2: str, p_m: float=0.1) -> tuple[
                 break
     return parent1, parent2
 
-def check_convergence(file: str, max_fitness, pop: list[str]) -> str:
-    for p in pop:
-        fitness = eval_fitness(file, chromosome1=p)
-        if fitness >= max_fitness:
-            return True
-    return False
+def change_weights(chromsome1: int, chromsome2: int, metrics: list[np.ndarray], weights: np.ndarray) -> np.ndarray:
+    # np argpartition (find k max elements)
+    # between both chromsomes, find max 3 metrics from their fitness and increase/decrease weights
+    # for that metric
+    metric1 = metrics[chromsome1]
+    metric2 = metrics[chromsome2]
+    fit1, fit2 = (metric1*weights), (metric2*weights)
+    total_fitness1, total_fitness2 = np.sum(fit1), np.sum(fit2)
+    if total_fitness1 < total_fitness2:
+        met_arr = metrics[chromsome1]
+        max_s, max_p, max_n = 0, 0, 0
+        max_is, max_ip, max_in = 0, 0, 0
+        for i in range(len(met_arr)):
+            if max_s < met_arr[i]:
+                max_s = met_arr[i]
+                max_is = i
+            elif max_p < met_arr[i] and max_p != max_s:
+                max_p = met_arr[i]
+                max_ip = i
+            elif max_n < met_arr[i] and max_n != max_p:
+                max_n = met_arr[i]
+                max_in = i
+        print(max_in, max_ip, max_is)
+        increase = np.random.uniform(0, 0.1)
+        weights[max_is]+=increase
+        weights[max_ip]+=increase
+        weights[max_in]+=increase
+        decrease = np.random.uniform(0, 0.1)
+        for i in range(len(weights)):
+            if i != max_in and i != max_ip and i != max_is:
+                weights[i]-=decrease 
+        return weights
+
+    elif total_fitness1 > total_fitness2:
+        met_arr = metrics[chromsome2]
+        max_s, max_p, max_n = 0, 0, 0
+        max_is, max_ip, max_in = 0, 0, 0
+        for i in range(len(met_arr)):
+            if max_s < met_arr[i]:
+                max_s = met_arr[i]
+                max_is = i
+            elif max_p < met_arr[i] and max_p != max_s:
+                max_p = met_arr[i]
+                max_ip = i
+            elif max_n < met_arr[i] and max_n != max_p:
+                max_n = met_arr[i]
+                max_in = i
+        print(max_in, max_ip, max_is)
+        # weights = np.array(weights)
+        increase = np.random.uniform(0, 0.1)
+        weights[max_is]+=increase
+        weights[max_ip]+=increase
+        weights[max_in]+=increase
+        decrease = np.random.uniform(0, 0.1)
+        for i in range(len(weights)):
+            if i != max_in and i != max_ip and i != max_is:
+                weights[i]-=decrease 
+        return weights
+    # weights = np.array(weights)
+    # increase = np.random.uniform(0, 0.1)
+    # weights[max_is]+=increase
+    # weights[max_ip]+=increase
+    # weights[max_in]+=increase
+    # decrease = np.random.uniform(0, 0.1)
+    # for i in range(len(weights)):
+    #     if i != max_in and i != max_ip and i != max_is:
+    #         weights[i]-=decrease 
+    # return list(weights)
+    # https://stackoverflow.com/questions/6910641/how-do-i-get-indices-of-n-maximum-values-in-a-numpy-array
+
 
 def genetic_algorithm(pop: list[str], csv: str, \
-    generations: int=10, p_c: float=0.6, weights: float=0.2) -> tuple[str, float]:
+    generations: int=10, p_c: float=0.6, p_m: float=0.1, weights: list[float] = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]) -> tuple[str, float]:
     start = time.time_ns()
+    print("weights", weights)
     for gen in range(generations):
-        fits = get_fitness(pop, csv, weights=weights)
-        p1, p2 = select(pop=pop, fitness=fits)
+        fits, metrics, weights = get_fitness(pop, csv, weights=weights)
+        print("fits", fits, "metrics", metrics, "weights2", weights)
+        p1, p2, f1, f2 = select(pop=pop, fitness=fits)
+        print("selection", p1, p2, f1, f2)
+        p1, p2 = crossover(pop=pop, parent1=p1, parent2=p2, p_c=p_c)
+        print("crossover", p1, p2)
+        p1, p2 = mutate(pop=pop, parent1=p1, parent2=p2, p_m=p_m)
+        print("mutate", p1, p2)
+        weights = change_weights(chromsome1=f1, chromsome2=f2, metrics=metrics, weights=weights)
+        print("update", weights)
+        # update pop, repeat, might need to calculate max fitness at this point of specific metric
 
     end = time.time_ns()
     time_ns = end-start
@@ -407,16 +505,13 @@ def genetic_algorithm(pop: list[str], csv: str, \
 
 if __name__ == "__main__":
     csv_file = 'data.csv'
+    weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
+    #  return avg_goals_scored*(0.2)+avg_goals_conceded*(-0.2)+\
+    # avg_shots_on_target*(0.2)+avg_total*(0.02)+avg_poss*(0.03)+avg_pass*(0.1)+avg_offense*(0.1)+\
+    # avg_pen_scored*(0.1)+avg_pen_missed*(-0.2)+avg_num_corners*(0.05)+avg_num_counter*(0.1)+avg_free_kick*(0.1)
     pop = generate_pop()
-    print("Pop", pop)
-    # for p in pop:
-    #     if len(p) == 5:
-    #         print(p)
-    # fits = [12,8,6,4]
-    # print(select(pop=pop, fitness=fits))
-    p_c = 0.75
+    # p_c = 0.75
     # for i in range(100):
     # print(crossover(pop=pop, parent1='41212', parent2='4231', p_c=p_c))
-    for i in range(100):
-        print(mutate(pop, '4231', '433'))
-    # genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.75, weights=[0.2, 0.2, 0.2, 0.2, 0.2])
+    # mutate(pop, '4231', '433')
+    genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.6, p_m=0.1, weights=weights)
