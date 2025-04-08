@@ -506,12 +506,5 @@ def genetic_algorithm(pop: list[str], csv: str, \
 if __name__ == "__main__":
     csv_file = 'data.csv'
     weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
-    #  return avg_goals_scored*(0.2)+avg_goals_conceded*(-0.2)+\
-    # avg_shots_on_target*(0.2)+avg_total*(0.02)+avg_poss*(0.03)+avg_pass*(0.1)+avg_offense*(0.1)+\
-    # avg_pen_scored*(0.1)+avg_pen_missed*(-0.2)+avg_num_corners*(0.05)+avg_num_counter*(0.1)+avg_free_kick*(0.1)
     pop = generate_pop()
-    # p_c = 0.75
-    # for i in range(100):
-    # print(crossover(pop=pop, parent1='41212', parent2='4231', p_c=p_c))
-    # mutate(pop, '4231', '433')
-    genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.6, p_m=0.1, weights=weights)
+    # genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.6, p_m=0.1, weights=weights)

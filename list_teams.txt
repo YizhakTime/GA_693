@@ -84,4 +84,32 @@ leicester v derby
 jan 11 2024
 hull v chelsea (hull had 3511, changed it to 352)
 cardiff v west ham
+spurs v crystal
+everton v norwich
+fulham v sunderland
+southampton v west brom (west brom has 4411, which i changed)
+man u v swansea
+athletic v almeria
+celta vigo v valencia
+atletico v barcelona
+elche v sevilla
+livorno v parma calcio
+bologna v lazio (bologna has 3511 which i changed to 352, lazio had 4141 which i changed to 451)
+ajaccio v psg 
+lyon v sochaux
+guingamp vs saint etienne (guingamp has 4222 which i changed to 442)
+bordeaux v toulouse
+valenciennes v sc bastia
+rennes vs nice
+sheffield wed v leeds
+huddersfield v millwall
+blackburn v doncaster
+bolton v nottingham forest
+watford v reading
+wigan v bournemouth
+yeovil v burnley
+ipswich v qpr (ipswich has 4141 which changed to 451)
+brighton v birmingham
+blackpool v middlesbrough
 
+jan 12 2014
