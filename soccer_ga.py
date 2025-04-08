@@ -392,7 +392,7 @@ def crossover(pop: list[str], parent1: str, parent2: str, p_c: float) -> tuple[s
     return parent1, parent2
 
 #mutation rate of 0.1
-def mutate(pop: list[str], parent1: str, parent2: str, p_m: float=0.1) -> tuple[str, str]:
+def mutate(pop: list[str], parent1: str, parent2: str, p_m: float=0.1) -> tuple[str, str, int, int]:
     choice = np.random.choice([0, 1], p=[1-p_m, p_m])
     if choice:
         # if mutation occurs
@@ -408,7 +408,14 @@ def mutate(pop: list[str], parent1: str, parent2: str, p_m: float=0.1) -> tuple[
                 parent1 = pop[rand_ind]
             if parent1 != parent2:
                 break
-    return parent1, parent2
+    ind1, ind2 = 0, 0
+    for i in range(len(pop)):
+        if pop[i] == parent1:
+            ind1 = i
+        if pop[i] == parent2:
+            ind2 = i
+
+    return parent1, parent2, ind1, ind2
 
 def change_weights(chromsome1: int, chromsome2: int, metrics: list[np.ndarray], weights: np.ndarray) -> np.ndarray:
     # np argpartition (find k max elements)
@@ -484,20 +491,26 @@ def change_weights(chromsome1: int, chromsome2: int, metrics: list[np.ndarray], 
 def genetic_algorithm(pop: list[str], csv: str, \
     generations: int=10, p_c: float=0.6, p_m: float=0.1, weights: list[float] = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]) -> tuple[str, float]:
     start = time.time_ns()
+    gens = []
     print("weights", weights)
     for gen in range(generations):
         fits, metrics, weights = get_fitness(pop, csv, weights=weights)
-        print("fits", fits, "metrics", metrics, "weights2", weights)
+        print("fits", fits)
+        print("metrics", metrics)
+        print("weights2", weights)
         p1, p2, f1, f2 = select(pop=pop, fitness=fits)
         print("selection", p1, p2, f1, f2)
         p1, p2 = crossover(pop=pop, parent1=p1, parent2=p2, p_c=p_c)
         print("crossover", p1, p2)
-        p1, p2 = mutate(pop=pop, parent1=p1, parent2=p2, p_m=p_m)
-        print("mutate", p1, p2)
-        weights = change_weights(chromsome1=f1, chromsome2=f2, metrics=metrics, weights=weights)
+        p1, p2, new_f1, new_f2 = mutate(pop=pop, parent1=p1, parent2=p2, p_m=p_m)
+        print("mutate", p1, p2, new_f1, new_f2)
+        weights = change_weights(chromsome1=new_f1, chromsome2=new_f2, metrics=metrics, weights=weights)
         print("update", weights)
+        gens.append(gen)
         # update pop, repeat, might need to calculate max fitness at this point of specific metric
-
+        # or check for fitness over times, do they increase/decrease or stabilize at certain genetations
+        # calculate std dev of fitnesses and check if this value is below a threshold
+    
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
@@ -507,4 +520,4 @@ if __name__ == "__main__":
     csv_file = 'data.csv'
     weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
     pop = generate_pop()
-    # genetic_algorithm(pop=pop, csv=csv_file, generations=1, p_c=0.6, p_m=0.1, weights=weights)
+    genetic_algorithm(pop=pop, csv=csv_file, generations=3, p_c=0.6, p_m=0.1, weights=weights)
