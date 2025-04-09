@@ -87,25 +87,28 @@ def eval_fitness(csv_file: str, chromosome: str, weights: list[float]) -> tuple[
     metrics.append(avg_num_counter)
     metrics.append(avg_free_kick)
     metrics = np.array(metrics)
+    # print("met", metrics)
     weights = np.array(weights)
     fit = metrics*weights
+    # print("mul", fit)
     total_fitness = np.sum(fit)
+    # print("total", total_fitness)
     return total_fitness, metrics, weights
   
 # tournament selection
 def select(pop: list[str], fitness: list[float]) -> tuple[str, str, int, int]:
     # total_fitness = np.sum(fitness)
     total_fitness = np.nansum(fitness)
-    print("total_fitness", total_fitness)
+    # print("total_fitness", total_fitness)
     normalized_fits = np.array(fitness)/total_fitness
-    print("normalized", normalized_fits)
+    # print("normalized", normalized_fits)
     parent1, parent2 = 0, 0
     while parent1 == parent2:
-        print("parents", parent1, parent2)
+        # print("parents", parent1, parent2)
         cum_probs = np.cumsum(normalized_fits)
-        print("cum_probs", cum_probs)
+        # print("cum_probs", cum_probs)
         prob = np.random.random()
-        print("prob", prob)
+        # print("prob", prob)
         for index, pro in enumerate(cum_probs):
             if prob < pro:
                 parent1 = index
@@ -435,7 +438,7 @@ def change_weights(chromsome1: int, chromsome2: int, metrics: list[np.ndarray], 
             elif max_n < met_arr[i] and max_n != max_p:
                 max_n = met_arr[i]
                 max_in = i
-        print(max_in, max_ip, max_is)
+        # print(max_in, max_ip, max_is)
         increase = np.random.uniform(0, 0.1)
         weights[max_is]+=increase
         weights[max_ip]+=increase
@@ -460,47 +463,63 @@ def change_weights(chromsome1: int, chromsome2: int, metrics: list[np.ndarray], 
             elif max_n < met_arr[i] and max_n != max_p:
                 max_n = met_arr[i]
                 max_in = i
-        print(max_in, max_ip, max_is)
+        # print(max_in, max_ip, max_is)
         # weights = np.array(weights)
         increase = np.random.uniform(0, 0.1)
         weights[max_is]+=increase
         weights[max_ip]+=increase
         weights[max_in]+=increase
         decrease = np.random.uniform(0, 0.1)
+        ###### new, decreased bottom 3 metrics
+        ml, mt, mz = met_arr[0], met_arr[0], met_arr[0]
+        ml_ind, mt_ind, mz_ind = 0, 0, 0
+        for i in range(len(met_arr)):
+            if ml > met_arr[i]:
+                ml = met_arr[i]
+                ml_ind = 0
+            elif mt > met_arr[i] and mt != ml:
+                mt = met_arr[i]
+                mt_ind = 0
+            elif mz > met_arr[i] and mz != mt:
+                mz = met_arr[i]
+                mz_ind = 0
         for i in range(len(weights)):
             if i != max_in and i != max_ip and i != max_is:
-                weights[i]-=decrease 
+                if i == ml_ind or i == mt_ind or i == mz_ind:
+                    weights[i]-=decrease 
+        ####
         return weights
 
 def genetic_algorithm(pop: list[str], csv: str, \
     generations: int=10, p_c: float=0.6, p_m: float=0.1, weights: list[float] = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]) -> tuple[str, float]:
     start = time.time_ns()
     gens, weighs, all_fits = [], [], []
-    print("weights", weights)
+    # print("weights", weights)
     for gen in range(generations):
         fits, metrics, weights = get_fitness(pop, csv, weights=weights)
-        print("fits", fits)
-        print("metrics", metrics)
-        print("weights2", weights)
+        # print("fits", fits)
+        # for i, m in enumerate(metrics):
+        #     print(f"Metric {i}", m)
+        # print("metrics", metrics)
+        # print("weights2", weights)
         p1, p2, f1, f2 = select(pop=pop, fitness=fits)
-        print("selection", p1, p2, f1, f2)
+        # print("selection", p1, p2, f1, f2)
         while p1 == p2:
             p1, p2 = crossover(pop=pop, parent1=p1, parent2=p2, p_c=p_c)
-        print("crossover", p1, p2)
+        # print("crossover", p1, p2)
         p1, p2, new_f1, new_f2 = mutate(pop=pop, parent1=p1, parent2=p2, p_m=p_m)
-        print("mutate", p1, p2, new_f1, new_f2)
+        # print("mutate", p1, p2, new_f1, new_f2)
         weights = change_weights(chromsome1=new_f1, chromsome2=new_f2, metrics=metrics, weights=weights)
-        print("update", weights)
+        # print("update", weights)
         weighs.append(weights)
         gens.append(gen)
         all_fits.append(fits)
-        # update pop, repeat, might need to calculate max fitness at this point of specific metric
+        # might need to calculate max fitness at this point of specific metric
         # or check for fitness over times, do they increase/decrease or stabilize at certain genetations
         # calculate std dev of fitnesses and check if this value is below a threshold
-
     means_weights = np.mean(weighs, axis=1)
     mean_fits = np.mean(all_fits, axis=1)
-    print()
+    print(p1, p2)
     plt.plot(gens, mean_fits)
     plt.xlabel('Number of generations')
     plt.ylabel('Mean fitness')
@@ -520,4 +539,4 @@ if __name__ == "__main__":
     csv_file = 'data.csv'
     weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
     pop = generate_pop()
-    genetic_algorithm(pop=pop, csv=csv_file, generations=10, p_c=0.2, p_m=0.1, weights=weights)
+    genetic_algorithm(pop=pop, csv=csv_file, generations=205, p_c=0.7, p_m=0.2, weights=weights)
