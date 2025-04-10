@@ -490,6 +490,26 @@ def change_weights(chromsome1: int, chromsome2: int, metrics: list[np.ndarray], 
         ####
         return weights
 
+def find_top_formations(pop: list[str], fitnesses: np.ndarray) -> list[str]:
+    max_f1, max_f2, max_f3 = 0, 0, 0
+    max_f1_i, max_f2_i, max_f3_i = 0, 0, 0
+    top = []
+    for fit in range(len(fitnesses)):
+        if max_f1 < fitnesses[fit]:
+            max_f1 = fitnesses[fit]
+            max_f1_i = fit
+        elif max_f2 < fitnesses[fit] and max_f1 != max_f2:
+            max_f2 = fitnesses[fit]
+            max_f2_i = fit
+        elif max_f3 < fitnesses[fit] and max_f2 != max_f3:
+            max_f3 = fitnesses[fit]
+            max_f3_i = fit
+    top.append(pop[max_f1_i])
+    top.append(pop[max_f2_i])
+    top.append(pop[max_f3_i])
+    # print("Top", top)
+    return top
+
 def genetic_algorithm(pop: list[str], csv: str, \
     generations: int=10, p_c: float=0.6, p_m: float=0.1, weights: list[float] = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]) -> tuple[str, float]:
     start = time.time_ns()
@@ -517,6 +537,7 @@ def genetic_algorithm(pop: list[str], csv: str, \
         # might need to calculate max fitness at this point of specific metric
         # or check for fitness over times, do they increase/decrease or stabilize at certain genetations
         # calculate std dev of fitnesses and check if this value is below a threshold
+    print(find_top_formations(pop, fits))
     means_weights = np.mean(weighs, axis=1)
     mean_fits = np.mean(all_fits, axis=1)
     print(p1, p2)
@@ -539,4 +560,4 @@ if __name__ == "__main__":
     csv_file = 'data.csv'
     weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
     pop = generate_pop()
-    genetic_algorithm(pop=pop, csv=csv_file, generations=205, p_c=0.7, p_m=0.2, weights=weights)
+    genetic_algorithm(pop=pop, csv=csv_file, generations=15, p_c=0.7, p_m=0.2, weights=weights)
