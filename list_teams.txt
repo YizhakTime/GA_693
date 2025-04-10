@@ -113,3 +113,21 @@ brighton v birmingham
 blackpool v middlesbrough
 
 jan 12 2014
+newcastle v man city (newcastle has 4222 -> 442)
+stoke v liverpool 
+getafe v rayo
+real betis v osasuna
+espanyol v real madrid (levante has 4141 -> to 451)
+levante v malaga 
+torino v fiorentina (changed fiorentina 4321 to 4231)
+atalanta v catania
+cagliari v juventus
+verona v napoli
+roma v genoa (genoa had 3511 -> 352)
+sassuolo v ac milan (ac milan had 4321-> 4231)
+nantes v lorient
+thonon v marseille
+lille vs reims (reims had 4141 -> 451)
+
+jan 13 2014
+
