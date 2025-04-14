@@ -444,9 +444,24 @@ def change_weights(chromsome1: int, chromsome2: int, metrics: list[np.ndarray], 
         weights[max_ip]+=increase
         weights[max_in]+=increase
         decrease = np.random.uniform(0, 0.1)
+        ml, mt, mz = met_arr[0], met_arr[0], met_arr[0]
+        ml_ind, mt_ind, mz_ind = 0, 0, 0
+        for i in range(len(met_arr)):
+            if ml > met_arr[i]:
+                ml = met_arr[i]
+                ml_ind = 0
+            elif mt > met_arr[i] and mt != ml:
+                mt = met_arr[i]
+                mt_ind = 0
+            elif mz > met_arr[i] and mz != mt:
+                mz = met_arr[i]
+                mz_ind = 0
+
         for i in range(len(weights)):
             if i != max_in and i != max_ip and i != max_is:
-                weights[i]-=decrease 
+                if i == ml_ind or i == mt_ind or i == mz_ind:
+                    weights[i]-=decrease 
+        print("Weights", weights)
         return weights
 
     elif total_fitness1 > total_fitness2:
@@ -488,6 +503,7 @@ def change_weights(chromsome1: int, chromsome2: int, metrics: list[np.ndarray], 
                 if i == ml_ind or i == mt_ind or i == mz_ind:
                     weights[i]-=decrease 
         ####
+        print("Here")
         return weights
 
 def find_top_formations(pop: list[str], fitnesses: np.ndarray) -> list[str]:
