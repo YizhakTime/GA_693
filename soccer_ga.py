@@ -576,4 +576,4 @@ if __name__ == "__main__":
     csv_file = 'data.csv'
     weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
     pop = generate_pop()
-    genetic_algorithm(pop=pop, csv=csv_file, generations=15, p_c=0.7, p_m=0.2, weights=weights)
+    genetic_algorithm(pop=pop, csv=csv_file, generations=15, p_c=0.7, p_m=0.01, weights=weights)
