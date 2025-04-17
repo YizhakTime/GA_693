@@ -461,7 +461,7 @@ def change_weights(chromsome1: int, chromsome2: int, metrics: list[np.ndarray], 
             if i != max_in and i != max_ip and i != max_is:
                 if i == ml_ind or i == mt_ind or i == mz_ind:
                     weights[i]-=decrease 
-        print("Weights", weights)
+        #print("Weights", weights)
         return weights
 
     elif total_fitness1 > total_fitness2:
@@ -503,7 +503,7 @@ def change_weights(chromsome1: int, chromsome2: int, metrics: list[np.ndarray], 
                 if i == ml_ind or i == mt_ind or i == mz_ind:
                     weights[i]-=decrease 
         ####
-        print("Here")
+        #print("Here")
         return weights
 
 def find_top_formations(pop: list[str], fitnesses: np.ndarray) -> list[str]:
@@ -527,7 +527,7 @@ def find_top_formations(pop: list[str], fitnesses: np.ndarray) -> list[str]:
     return top
 
 def genetic_algorithm(pop: list[str], csv: str, \
-    generations: int=10, p_c: float=0.6, p_m: float=0.1, weights: list[float] = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]) -> tuple[str, float]:
+    generations: int=10, p_c: float=0.6, p_m: float=0.1, weights: list[float] = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]) -> tuple[list[str], float]:
     start = time.time_ns()
     gens, weighs, all_fits = [], [], []
     # print("weights", weights)
@@ -553,10 +553,12 @@ def genetic_algorithm(pop: list[str], csv: str, \
         # might need to calculate max fitness at this point of specific metric
         # or check for fitness over times, do they increase/decrease or stabilize at certain genetations
         # calculate std dev of fitnesses and check if this value is below a threshold
-    print(find_top_formations(pop, fits))
+
+#    print(all_fits)
+    top_three = find_top_formations(pop, fits)
     means_weights = np.mean(weighs, axis=1)
     mean_fits = np.mean(all_fits, axis=1)
-    print(p1, p2)
+    #print(p1, p2)
     plt.plot(gens, mean_fits)
     plt.xlabel('Number of generations')
     plt.ylabel('Mean fitness')
@@ -570,10 +572,12 @@ def genetic_algorithm(pop: list[str], csv: str, \
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
-    return "", total
+    return top_three, total
 
 if __name__ == "__main__":
     csv_file = 'data.csv'
     weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
     pop = generate_pop()
-    genetic_algorithm(pop=pop, csv=csv_file, generations=15, p_c=0.7, p_m=0.01, weights=weights)
+    for i in range(5):
+        top_3, total = genetic_algorithm(pop=pop, csv=csv_file, generations=500, p_c=0.5, p_m=0.01, weights=weights)
+        print(top_3)
