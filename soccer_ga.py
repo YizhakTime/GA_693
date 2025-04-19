@@ -578,6 +578,15 @@ if __name__ == "__main__":
     csv_file = 'data.csv'
     weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
     pop = generate_pop()
+    #count1, count2, count3, count4, count5 = 0, 0, 0, 0, 0
+    top_dict = dict()
     for i in range(5):
         top_3, total = genetic_algorithm(pop=pop, csv=csv_file, generations=500, p_c=0.5, p_m=0.01, weights=weights)
-        print(top_3)
+        for i, top in enumerate(top_3):
+            if top not in top_dict:
+                top_dict[top+'_'+str(i)] = 1
+            else:
+                top_dict[top+'_'+str(i)] += 1
+    print(top_dict)
+
+        # print(top_3)

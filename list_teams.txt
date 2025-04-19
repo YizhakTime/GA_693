@@ -146,3 +146,95 @@ jan 16 2014
 getafe v barcelona
 
 jan 17 2014
+malaga v valencia
+saint etienne v lille
+twente v heracles
+
+jan 18 2014
+sunderland v southampton (sunderland hadn 4141 -> 451)
+arsenal v fulham
+west ham v newcastle
+crystal palace v stoke
+man city v cardiff (cardiff had 4141 -> 451)
+norwich v hull
+liverpool v aston villa
+real betis v real madrid
+elche v rayo vallecano
+granada v osasuna
+espanyol v celta (celta had 4141 -> 451)
+roma v livorno (roma had 4321 -> 4231)
+juventus v sampdoria
+bastia v bordeux
+rennes v thonon
+lorient v guingamp
+nice v ajaccio
+sochaux v montpellier
+leeds v leicester
+derby v brighton
+middlesbrough v charlton
+barnsley v blackpool
+reading v bolton
+birmingham v yeovil
+qpr v huddersfield
+nottingham v forest
+bounremouth v watford
+burnley v sheffield wednesday
+millwall v ispwsich
+doncaster v wigan
+az v nac
+rkc waalwijk v groningen
+pec zwolle v vitesse
+sc heerenveen v roda
+
+jan 19 2014
+swansea v tottenham
+chelsea v man united
+getafe v real sociedad
+villarrea v almeria
+levante v barcelona
+atletico v sevilla
+udinese v lazio (udinese had 3511 -> 352)
+atalanta v cagliari
+chievo v parma calcio
+bologna v napoli (bologna had 3511 -> 352)
+sassuolo v torino
+catania v fiorentina
+genoa v inter (inter had 3412 -> 352)
+ac milan v verona
+reims v lyons
+toulouse v monaco 
+psg v nantes
+nec nijmegen vs ado den haag
+camburr vs go ahead eagles
+fc ultrecht v feyenoord
+ajax v psv
+
+jan 20 2014
+wba v everton
+atheltic v real valladolid
+
+jan 21 2014
+west ham vs man city
+
+jan 22 2014
+man united v sunderland (sunderland had 4141 -> 451)
+levante v barcelona (levante had 4141 -> 451)
+ac milan v udinese (udinese had 3511 -> 352)
+psg v montpellier
+
+jan 23 2014
+atletico v atheltic
+
+jan 24 2014
+celta v real betis
+borussia m gladbach v bayern (bayern had 4141 -> 451)
+lille v rennes
+heracles v rkc waalwijk
+
+jan 25 2014
+real madrid v granada
+real valladolid v villarreal
+valencia v espanyol
+sevilla v levante
+napoli v chievo
+lazio v juventus (lazio had 3421 -> 343)
