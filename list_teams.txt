@@ -238,3 +238,88 @@ valencia v espanyol
 sevilla v levante
 napoli v chievo
 lazio v juventus (lazio had 3421 -> 343)
+
+freiburg v leverkusen
+stuttgart v mainz 
+borussia dortmund v ausburg
+wolfsburg v hannover
+nuernberg v hoffenheim (nuernberg had 4141 -> 451)
+frankfurt v hertha berlin
+guingamp v psg
+valencinnes v lorient
+ajaciio v sochaux
+nantes v reims
+montpellier v nice
+leicester v middlesborugh
+blackpool v doncaster
+blackburn v derby
+ipswich v reading
+ado v feyenoord
+nac breda v zwolle
+roda v ultrecht
+psv v alkammar
+
+jan 26 2014
+almeria v getafe
+]osasuna v atheltc (atheltic had 4141 -> 451)
+rayo v atletico
+barcelona v malaga
+verona v roma 
+caglairi v ac milan
+torino v atalanta (torino had 3412 -> 352)
+sampdoria v bologna (bologna had 3511 -> 352)
+parma v udiense (udinese had 3421 -> 343)
+inter v catania  (inter had 3421 -> 343)
+livorno v sassuolo
+fiorentina v genoa
+werder bremen v einctrecht braunschewig (eintrecjht had 4141 -> 451)
+hamburg sv v schalke
+lyon v thonon evian grand geneve
+bordeaux v saint etienne
+monaco v marseille
+cambuur vs sc heerenveen
+vitesse v nec nijmegen
+go ahead eagles v ajax
+chelsea v stoke
+
+jan 27 2014
+real sociedad v elche
+
+jan 28 2014
+southampton v arsenal
+norwich v newscastle
+man u vs cardiff
+swansea v fulham
+liverpool v everton
+crystal v hull
+qpr v bolton
+derby v yeovil
+middlesbourhg v wigan
+burnely v brighton
+barnsley v balckburn
+doncaster v charlton
+brimingham v leicster
+leeds v ipswich
+bounremouth v huddersfield
+millwall vs sheffiled wed
+reading v blackpool
+
+jan 29 2014
+tottenham vs man city
+sunderland v stoke
+chelsea vs west ham
+aston villa v west brom
+stuttgart v bayern (bayenr had 4141 -> 451)
+marseille v valencieness
+atheltic v atletico (atheltic had 4141 -> 451)
+barcelona v levante
+napoli v lazio (lazio had 3421 -> 343)
+
+jan 30 2014
+nottingham forest v watford
+
+jan 31 2014
+granada vs celta vigo
+entracht braunschewig v broussai dortmund
+psg v bordaeux
+feynoord v vitesse
