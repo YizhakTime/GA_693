@@ -554,11 +554,11 @@ def genetic_algorithm(pop: list[str], csv: str, \
         # or check for fitness over times, do they increase/decrease or stabilize at certain genetations
         # calculate std dev of fitnesses and check if this value is below a threshold
 
-#    print(all_fits)
     top_three = find_top_formations(pop, fits)
     means_weights = np.mean(weighs, axis=1)
     mean_fits = np.mean(all_fits, axis=1)
     #print(p1, p2)
+    """
     plt.plot(gens, mean_fits)
     plt.xlabel('Number of generations')
     plt.ylabel('Mean fitness')
@@ -569,6 +569,7 @@ def genetic_algorithm(pop: list[str], csv: str, \
     plt.ylabel('Mean weights')
     plt.title('Weights over generations')
     plt.show()
+    """
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
@@ -578,15 +579,16 @@ if __name__ == "__main__":
     csv_file = 'data.csv'
     weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
     pop = generate_pop()
-    #count1, count2, count3, count4, count5 = 0, 0, 0, 0, 0
     top_dict = dict()
-    for i in range(5):
+    generations = 5
+    for i in range(generations):
         top_3, total = genetic_algorithm(pop=pop, csv=csv_file, generations=500, p_c=0.5, p_m=0.01, weights=weights)
         for i, top in enumerate(top_3):
-            if top not in top_dict:
+            if top+'_'+str(i) not in top_dict:
                 top_dict[top+'_'+str(i)] = 1
             else:
                 top_dict[top+'_'+str(i)] += 1
-    print(top_dict)
-
-        # print(top_3)
+    max_form = (max(top_dict, key=top_dict.__getitem__))
+    # https://docs.python.org/3/howto/sorting.html#sortinghowto
+    print("Max formation is", max_form.split('_')[0])
+    # https://docs.python.org/3/library/stdtypes.html#string-methods
