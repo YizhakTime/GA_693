@@ -570,6 +570,7 @@ def genetic_algorithm(pop: list[str], csv: str, \
     ax.set_title('Top three formations')
     ax.set_xticks(x, top_three)
     ax.legend(title='Formations')
+    # https://matplotlib.org/stable/gallery/lines_bars_and_markers/barchart.html#sphx-glr-gallery-lines-bars-and-markers-barchart-py
     plt.show()
     end = time.time_ns()
     time_ns = end-start
