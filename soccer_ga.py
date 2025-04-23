@@ -55,7 +55,8 @@ def get_fitness(pop: list[str], csv: str, weights: list[float]) -> tuple[list[fl
     return fitnesses, all_m, weights
 
 def eval_fitness(csv_file: str, chromosome: str, weights: list[float]) -> tuple[float, np.ndarray, np.ndarray]:
-    df = pd.read_csv(csv_file)
+    df = pd.read_csv(csv_file, delimiter=',')
+    # https://stackoverflow.com/questions/45893390/pandas-read-csv-does-not-load-a-comma-separated-csv-properly
     # https://www.geeksforgeeks.org/get-a-specific-row-in-a-given-pandas-dataframe/
     # stats = df.loc[df['Formations'] ==  chromosome1]
     # return fitness (what data type, most likely float)
@@ -524,7 +525,7 @@ def find_top_formations(pop: list[str], fitnesses: np.ndarray) -> list[str]:
     return top, [max_f1, max_f2, max_f3]
 
 def genetic_algorithm(pop: list[str], csv: str, \
-        generations: int=10, p_c: float=0.6, p_m: float=0.1, weights: list[float] = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1], x: np.ndarray = np.array([0, 1, 2])) -> tuple[list[str], float]:
+        generations: int=10, p_c: float=0.6, p_m: float=0.1, weights: list[float] = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1], x: np.ndarray = np.array([0, 1, 2]), it: int = 0) -> tuple[list[str], float, np.ndarray]:
     start = time.time_ns()
     gens, weighs, all_fits = [], [], []
     # print("weights", weights)
@@ -542,6 +543,7 @@ def genetic_algorithm(pop: list[str], csv: str, \
         # print("crossover", p1, p2)
         p1, p2, new_f1, new_f2 = mutate(pop=pop, parent1=p1, parent2=p2, p_m=p_m)
         # print("mutate", p1, p2, new_f1, new_f2)
+        # print(p1, p2)
         weights = change_weights(chromsome1=new_f1, chromsome2=new_f2, metrics=metrics, weights=weights)
         # print("update", weights)
         weighs.append(weights)
@@ -567,7 +569,8 @@ def genetic_algorithm(pop: list[str], csv: str, \
     rects = ax.bar(top_three, top_fits, label=top_three, color=colors)
     ax.bar_label(rects, padding=3)
     ax.set_ylabel('Fitness')
-    ax.set_title('Top three formations')
+    ax.set_title(f'Top three formations in iteration {it}')
+    # https://docs.python.org/3/library/string.html
     ax.set_xticks(x, top_three)
     ax.legend(title='Formations')
     # https://matplotlib.org/stable/gallery/lines_bars_and_markers/barchart.html#sphx-glr-gallery-lines-bars-and-markers-barchart-py
@@ -575,24 +578,47 @@ def genetic_algorithm(pop: list[str], csv: str, \
     end = time.time_ns()
     time_ns = end-start
     total = time_ns/(10**9)
-    return top_three, total
+    return top_three, total, weights
 
 if __name__ == "__main__":
     csv_file = 'data.csv'
-    weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
-    pop = generate_pop()
-    top_dict = dict()
-    generations = 5
-    x_vals = np.array([0, 1, 2])
-    for i in range(generations):
-        top_3, total = genetic_algorithm(pop=pop, csv=csv_file, generations=500, p_c=0.5, p_m=0.01, weights=weights, x=x_vals)
-        print("Total time", total)
-        for i, top in enumerate(top_3):
-            if top+'_'+str(i) not in top_dict:
-                top_dict[top+'_'+str(i)] = 1
-            else:
-                top_dict[top+'_'+str(i)] += 1
-    max_form = (max(top_dict, key=top_dict.__getitem__))
-    # https://docs.python.org/3/howto/sorting.html#sortinghowto
-    print("Max formation is", max_form.split('_')[0])
-    # https://docs.python.org/3/library/stdtypes.html#string-methods
+    case_i = int(input("Enter a case: "))
+    # https://docs.python.org/3/tutorial/controlflow.html
+    match case_i:
+        case 1:
+            weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
+            pop = generate_pop()
+            top_dict = dict()
+            generations = 5
+            x_vals = np.array([0, 1, 2])
+            for i in range(generations):
+                top_3, total, weights = genetic_algorithm(pop=pop, csv=csv_file, generations=500, p_c=0.5, p_m=0.01, weights=weights, x=x_vals, it=i+1)
+                print("Total time", total)
+                for i, top in enumerate(top_3):
+                    if top+'_'+str(i) not in top_dict:
+                        top_dict[top+'_'+str(i)] = 1
+                    else:
+                        top_dict[top+'_'+str(i)] += 1
+            max_form = (max(top_dict, key=top_dict.__getitem__))
+            # https://docs.python.org/3/howto/sorting.html#sortinghowto
+            print("Max formation is", max_form.split('_')[0])
+            # https://docs.python.org/3/library/stdtypes.html#string-methods
+        case 2:
+            weights = [0.4, -0.8, 0.4, 0.02, 0.03, 0.1, 0.1, 0.1, -0.8, 0.05, 0.1, 0.1]
+            pop = generate_pop()
+            top_dict = dict()
+            generations = 5
+            x_vals = np.array([0, 1, 2])
+            for i in range(generations):
+                # print("Weights", weights)
+                top_3, total, weights = genetic_algorithm(pop=pop, csv=csv_file, generations=500, p_c=0.9, p_m=0.8, weights=weights, x=x_vals, it=i+1)
+                print("Total time", total)
+                for i, top in enumerate(top_3):
+                    if top+'_'+str(i) not in top_dict:
+                        top_dict[top+'_'+str(i)] = 1
+                    else:
+                        top_dict[top+'_'+str(i)] += 1
+            max_form = (max(top_dict, key=top_dict.__getitem__))
+            # https://docs.python.org/3/howto/sorting.html#sortinghowto
+            print("Max formation is", max_form.split('_')[0])
+            # https://docs.python.org/3/library/stdtypes.html#string-methods
