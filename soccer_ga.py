@@ -589,9 +589,9 @@ if __name__ == "__main__":
             weights = [0.2, -0.2, 0.2, 0.02, 0.03, 0.1, 0.1, 0.1, -0.2, 0.05, 0.1, 0.1]
             pop = generate_pop()
             top_dict = dict()
-            generations = 5
+            iterations = 5
             x_vals = np.array([0, 1, 2])
-            for i in range(generations):
+            for i in range(iterations):
                 top_3, total, weights = genetic_algorithm(pop=pop, csv=csv_file, generations=500, p_c=0.5, p_m=0.01, weights=weights, x=x_vals, it=i+1)
                 print("Total time", total)
                 for i, top in enumerate(top_3):
@@ -607,10 +607,9 @@ if __name__ == "__main__":
             weights = [0.4, -0.8, 0.4, 0.02, 0.03, 0.1, 0.1, 0.1, -0.8, 0.05, 0.1, 0.1]
             pop = generate_pop()
             top_dict = dict()
-            generations = 5
+            iterations = 5
             x_vals = np.array([0, 1, 2])
-            for i in range(generations):
-                # print("Weights", weights)
+            for i in range(iterations):
                 top_3, total, weights = genetic_algorithm(pop=pop, csv=csv_file, generations=500, p_c=0.9, p_m=0.8, weights=weights, x=x_vals, it=i+1)
                 print("Total time", total)
                 for i, top in enumerate(top_3):
@@ -619,6 +618,20 @@ if __name__ == "__main__":
                     else:
                         top_dict[top+'_'+str(i)] += 1
             max_form = (max(top_dict, key=top_dict.__getitem__))
-            # https://docs.python.org/3/howto/sorting.html#sortinghowto
             print("Max formation is", max_form.split('_')[0])
-            # https://docs.python.org/3/library/stdtypes.html#string-methods
+        case 3:
+            weights = [0.4, -0.8, 0.4, 0.02, 0.03, 0.1, 0.1, 0.1, -0.8, 0.05, 0.1, 0.1]
+            pop = generate_pop()
+            top_dict = dict()
+            iterations = 5
+            x_vals = np.array([0, 1, 2])
+            for i in range(iterations):
+                top_3, total, weights = genetic_algorithm(pop=pop, csv=csv_file, generations=70, p_c=0.5, p_m=0.5, weights=weights, x=x_vals, it=i+1)
+                print("Total time", total)
+                for i, top in enumerate(top_3):
+                    if top+'_'+str(i) not in top_dict:
+                        top_dict[top+'_'+str(i)] = 1
+                    else:
+                        top_dict[top+'_'+str(i)] += 1
+            max_form = (max(top_dict, key=top_dict.__getitem__))
+            print("Max formation is", max_form.split('_')[0])
