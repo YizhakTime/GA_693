@@ -325,3 +325,46 @@ psg v bordaeux
 feynoord v vitesse
 
 feb 1 2014
+newcastle v sunderland (sunderland had 4141 -> 451)
+west ham v swansea
+fulham v southampton
+everton v aston villa
+hull v tottenham
+stoke v man utd
+cardiff v norwich
+barcelona v valencia
+levante v rayo
+getafe v real valladolid
+malaga v sevilla
+cagliari v fiorentina (fiorentina had 4321 -> 4231)
+bologna v udinese (bologna had 3511 -> 352)
+ac milan v torino
+mainz v freiburg
+schalke v wolfsburg
+hoffenheim v hamburger
+bayer leverkusen v stuttgart
+ausgburg v weder bremen
+hannover v borussia monchen gladbach
+lorient v monaco
+sochaux v nantes
+saint etienne v valenciennes
+sc bastia v guingamp
+thonon v ajaccio
+reims v montpellier
+qpr v burnsley
+ipswich v bolton
+blackburn v blackpool (blackpool had 3511 -> 352)
+millwall v reading
+leeds v huddersfield
+bounremouth v leicester
+sheffield wednesday
+wigan v charlton
+birmingham v derby
+doncaster v middlesbrough
+heerenveen vs ado den haag
+pec zwolle v roda
+heracles v nac breda
+alkmaar v groningen
+
+feb 2 2014
+
