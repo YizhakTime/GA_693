@@ -367,4 +367,28 @@ heracles v nac breda
 alkmaar v groningen
 
 feb 2 2014
+west brom v liverpool
+arsenal v crystal
+elche v almeria
+real betis v espanyol
+atletico v real sociedad
+atheltic club v real madrid
+sassuolo v verona
+chievo v lazio
+catania v livorno
+atalanta v napoli
+juventus v inter (inter had 3511 -> 352)
+hertha berlin v nuernberg (hertha berlin 4141 -> 451)
+bayern v frankfurt
+nice v lille
+rennes v lyon
+marseille v toulouse
+nottingham forest v yeovil
+watford v brighton
+fc ulrecht v ajax
+nec nijmegen v go ahead eagles
+twente v cambuur 
+rkc waalwijk v psv eindhoven
+
+feb 3 2014
 
