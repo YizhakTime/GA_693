@@ -411,4 +411,54 @@ ulrecht v zwolle
 ajax v groningen
 
 feb 7 2014
+espanyol v granada
+borussia monchegladbach v bayer leverkusen
+toulouse v saint etienne
+vitesse v ado den haag
+
+feb 8 2014
+liverpool v arsenal
+crystal palace v west brom
+aston villa v west ham
+chelsea v newcastle
+norwich v man city
+southampton v stoke
+sunderland v hull
+swansea v cardiff
+valencia v real betis
+rayo vallecano v malaga
+real madrid v villarreal
+almeria v atletico madrid
+fiorentina v atalanta (fiorentina had 3511 -> 352)
+udinese v chievo (udinese and chievo had 3511 -> 352)
+napoli v ac milan
+wolfsburg v mainz
+weder bremen v borussia dortmund
+nuernberg v bayern munich (nuernberg had 4141 -> 451)
+freiburg v hoffenheim
+eintracht frankfurt v eintracht braunschweig
+hamburger sv v hertha berlin
+marseille v sc bastia
+ajaccio v rennes
+valenciennes v nice
+montpellier v thonon
+lille v sochaux
+guingamp v reims (reims made 4141 -> 451)
+yeovil v leeds 
+blackpool v nottingham forest
+bolton v bournemouth
+barnsley v ipswich
+huddersfield v wigan
+charlton v birmingham
+burnley v millwall
+reading v sheffield wednesday
+brighton doncaster
+middlesbrough v blackburn
+leicester v watford
+psv v twente
+nac breda v roda
+go ahead eagles v az alkaar
+feyenoord v nec nijmegen
+
+feb 9 2014
 
