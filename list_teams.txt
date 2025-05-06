@@ -488,5 +488,22 @@ celta vigo v atheltic (celta vigo had 4141 -> 451)
 derby v qpr
 
 feb 11 2014
+cardiff v aston villa
+hull v southampton
+west ham v norwich
+west brom v chelsea
+toulouse v bastia
+sheffield wednesday v wigan
+brighton v leeds
+huddersfield v nottingham
+watford v birmingham
+yeovil v millwall
+bolton v burnley
+atletico v real (atletico had 4141 -> 451)
+fiorentina v udinese (udinese had 3511 -> 352)
+
+feb 12 2014
+
+
 
 
