@@ -463,4 +463,14 @@ feyenoord v nec nijmegen
 feb 9 2014
 tottenham v everton
 manchester united v fulham
+osasuna v getafe
+real valladolid v elche
+real sociedad v levante
+sevilla v barcelona
+torino v bologna (bologna had 3511 -> 352)
+sampdoria v cagliari
+parma v calcio
+livorno v genoa
+
+
 
