@@ -471,6 +471,22 @@ torino v bologna (bologna had 3511 -> 352)
 sampdoria v cagliari
 parma v calcio
 livorno v genoa
+verona v juventus
+lazio v roma (lazio had 4321 -> 4231)
+inter v sassuolo
+stuttgart v augsburg
+schalke v hannover
+nantes v lyon
+monaco v psg
+heracles v cambuur
+pec zwolle v ajax
+rkc waalwijk v ulrecht
+groningen v heerenveen
 
+feb 10 2014
+celta vigo v atheltic (celta vigo had 4141 -> 451)
+derby v qpr
+
+feb 11 2014
 
 
