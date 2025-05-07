@@ -503,7 +503,26 @@ atletico v real (atletico had 4141 -> 451)
 fiorentina v udinese (udinese had 3511 -> 352)
 
 feb 12 2014
+stoke v swansea
+arsenal v man united
+newcastle v tottenham (tottenham had 4141 -> 451)
+fulham v liverpool
+groningen v twente
+real sociedad v barcelona
+napoli v roma
+hamburger v bayern munich (bayern had 4141 -> 451)
 
+feb 13 2014
+None
+
+feb 14 2014
+elche v osasuna
+ac milan v bologna (bologna had 3511 -> 352)
+mainz v  hannover
+psg v valenciennes
+psv v heracles
+
+feb 15 2014
 
 
 
