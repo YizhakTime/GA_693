@@ -523,6 +523,135 @@ psg v valenciennes
 psv v heracles
 
 feb 15 2014
+atletico madrid v real valladolid
+levante v almeria
+barcelona v rayo vallecano
+villarreal v celta vigo (celta had 4141 -> 451)
+fiorentina v inter
+eintracht braunschweig v hamburger (eintracht had 4141 -> 451)
+borussia dormtund v eintracht frankfrut
+bayern v frieburg
+werder bremen v borussia monchegladbach
+hoffenheim v stuttgart
+bayer v schalke
+sc bastia v monaco
+sochaux v guingamp
+rennes v montpellier
+reims v bordeaux
+nice v nantes
+lorient v toulouse
+ipswich v blackpool
+bournemouth v burnley
+birmingham v huddersfield
+millwall v bolton
+doncaster v barnsley
+watford v middlesbrough
+twente v vitesse
+roda v ado den haag
+rkc waalwijk v nijmegen
+alkmaar v ulrecht
 
+feb 16 2014
+granada v real betis
+getafe v real madrid
+athletic v espanyol (athletic had 4141 -> 451)
+sevilla v valencia
+catania v lazio
+atalanta v parma
+genoa v udinese (udinese had 3511 -> 352)
+juventus v chievo
+augsburg v nuernberg (nuernberg had 4141 -> 451)
+hertha berlin v wolfsburg (hertha had 4141 -> 451)
+lyon v ac ajccacio
+thonon evian grand genev v lille
+saint-etienne v marseille
+qpr v reading 
+cambuur v pec zwolle
+groningen v go ahead eagles
+breda v feyenoord
+ajax v heerenveen
+
+feb 17 2014
+malaga v real sociedad
+verona v torino
+brighton v hull
+
+feb 18 2014
+man city v barcelona
+bayer v psg
+yeovil v watford
+wigan v barnsley
+sheffield wednesday v derby
+
+feb 19 2014
+ac milan v atletico madrid
+arsenal v bayern munich
+nottingham v leicester city
+
+feb 20 2014
+anzhi v genk
+dnipro v tottenham
+juventus v trabzonspor
+choromorets odesa v lyon
+esbjerg fb v fiorentina 
+dynamo kyiv v valencia
+paok v benfica
+slovan v alkmaar
+real betis v rubin kazan
+swansea v napoli
+maribor v sevilla
+viktoria v shakhtar donetsk
+lazio v ludogorets razgrad
+ajax v salzburg
+maccabi tel aviv v fc basel (3421 -> 343)
+porto v frankfurt
+
+feb 21 2014
+real vallodolid v levante
+schalke v mainz
+monaco v reims
+ado den haag v go ahead eagles
+
+feb 22 2014
+chelsea v everton
+arsenal v sunderland
+cardiff v hull
+man city v stoke (man city had 4222 -> 442)
+west brom v fulham
+west ham v southampton
+crystal palace v manchester united
+real madrid v elche
+celta vigo v getafe
+real sociedad v barcelona
+almeria v malaga
+bologna v roma
+borussa monchegladbach v hoffenheim (hoffenheim had 4141 -> 451)
+stuttgart v hertha berlin 
+nuern berg v eintracht braunschweig
+freiburg v augsburg
+hamburger v borussa dortmund
+wolfsburg v bayer leverkusen
+marseille v lorient
+valenciennes v sochaux
+montpellier v ajaccio
+guingamp v nice
+bordeuax v thonon
+sc bastia v saint etienne
+middlesbrough v leeds
+blackpool v mirngham
+burnley v nottingham
+bolton v watford
+derby v bounremouth
+leicester c ipswich
+brighton v wigan
+reading v blackburn
+yeovil v doncaster
+barnsley v millwall
+chalrton v qpr
+huddserfield v sheiffeild wednesday
+heerenveen v nac breda
+cambuur v roda
+pec zwolle v heracles
+nijmegen v psv
 
 
